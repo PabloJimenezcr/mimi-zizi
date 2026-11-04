@@ -31,3 +31,23 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Node.js
+node_modules/
+
+# Java y Maven
+target/
+
+# VS Code
+.vscode/
+
+# Variables y credenciales locales
+.env
+.env.*
+
+# Logs
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
