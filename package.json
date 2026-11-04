@@ -1,0 +1,12 @@
+{
+  "name": "grooming-mimi-zizi",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:css": "sass src/main/resources/static/assets/scss/main.scss src/main/resources/static/assets/css/main.css --style=expanded",
+    "watch:css": "sass --watch src/main/resources/static/assets/scss/main.scss:src/main/resources/static/assets/css/main.css"
+  },
+  "devDependencies": {
+    "sass": "^1.86.0"
+  }
+}
