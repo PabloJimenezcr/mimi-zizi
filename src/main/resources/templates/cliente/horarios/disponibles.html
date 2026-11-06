@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#071b29">
+
+    <title>Horarios disponibles | Mimi y Zizi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body class="client-schedules-page">
+
+    <a href="#main-content" class="client-schedules-skip">
+        Saltar al contenido principal
+    </a>
+
+    <!-- HEADER -->
+    <header class="client-schedules-header">
+
+        <div class="container">
+
+            <nav class="client-schedules-nav" aria-label="Navegación principal">
+
+                <a th:href="@{/cliente/inicio}" class="client-schedules-brand"
+                    aria-label="Mimi y Zizi, regresar a mi cuenta">
+
+                    <img th:src="@{/assets/img/logo-mimi-zizi.png}" alt="Mimi y Zizi">
+
+                </a>
+
+                <div class="client-schedules-nav__actions">
+
+                    <a th:href="@{/cliente/inicio}" class="client-schedules-back">
+                        <i class="ri-arrow-left-line" aria-hidden="true"></i>
+                        <span>Mi cuenta</span>
+                    </a>
+
+                    <form th:action="@{/logout}" method="post">
+
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                        <button type="submit" class="client-schedules-logout">
+                            <i class="ri-logout-box-r-line" aria-hidden="true"></i>
+                            <span>Cerrar sesión</span>
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <main class="container client-schedules-main" id="main-content" tabindex="-1">
+
+        <!-- BREADCRUMB -->
+        <nav class="client-schedules-breadcrumb" aria-label="Ubicación">
+
+            <a th:href="@{/cliente/inicio}">Mi cuenta</a>
+
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+
+            <span aria-current="page">Horarios</span>
+
+        </nav>
+
+
+        <!-- INTRODUCCIÓN -->
+        <section class="client-schedules-hero">
+
+            <div class="client-schedules-hero__content">
+
+                <span class="section-kicker">
+                    AGENDA SU PRÓXIMA VISITA
+                </span>
+
+                <h1>
+                    ¿Qué día te gustaría
+                    <span>venir?</span>
+                </h1>
+
+                <p>
+                    Elige la fecha que mejor se adapte a ti.
+                    Te mostraremos los horarios disponibles para ese día
+                    y podrás seleccionar el que prefieras.
+                </p>
+
+                <div class="client-schedules-hero__detail">
+                    <i class="ri-heart-3-line" aria-hidden="true"></i>
+                    Un momento de cuidado pensado para tu mascota.
+                </div>
+
+            </div>
+
+            <div class="client-schedules-hero__decoration" aria-hidden="true">
+
+              <i class="ri-paw-print-fill"></i>
+
+                <span>
+                    <i class="ri-paw-print-fill"></i>
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- SELECTOR DE FECHA -->
+        <section class="client-schedules-date" aria-labelledby="date-selector-title">
+
+            <div class="client-schedules-date__heading">
+
+                <div class="client-schedules-date__icon" aria-hidden="true">
+
+                    <i class="ri-calendar-event-line"></i>
+
+                </div>
+
+                <div>
+
+                    <span class="section-kicker">
+                        PRIMERO, ELIGE EL DÍA
+                    </span>
+
+                    <h2 id="date-selector-title">
+                        Selecciona una fecha
+                    </h2>
+
+                    <p>
+                        Consulta las jornadas disponibles para el día que prefieras.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form th:action="@{/cliente/horarios}" method="get" class="client-schedules-date__form">
+
+                <div class="client-schedules-date__input">
+
+                    <label for="fecha">
+                        Fecha de tu visita
+                    </label>
+
+                    <div>
+
+                        <i class="ri-calendar-2-line" aria-hidden="true"></i>
+
+                        <input type="date" id="fecha" name="fecha" th:value="${fechaSeleccionada}"
+                            th:min="${fechaMinima}" required>
+
+                    </div>
+
+                </div>
+
+                <button type="submit" class="client-schedules-date__button">
+
+                    Ver horarios
+
+                    <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+                </button>
+
+            </form>
+
+
+            <!-- PRÓXIMAS FECHAS -->
+            <div th:if="${not #lists.isEmpty(fechasDisponibles)}" class="client-schedules-date__quick">
+
+                <span>También puedes consultar:</span>
+
+                <div class="client-schedules-date__chips">
+
+                    <a th:each="fechaDia : ${fechasDisponibles}" th:href="@{/cliente/horarios(fecha=${fechaDia})}"
+                        th:classappend="${fechaDia == fechaSeleccionada} ? ' is-active' : ''" th:attr="aria-current=${fechaDia == fechaSeleccionada ? 'date' : null},
+                                aria-label=|Consultar horarios del ${#temporals.format(fechaDia, 'dd/MM/yyyy')}|">
+
+                        <i class="ri-calendar-line" aria-hidden="true"></i>
+
+                        <span th:text="${#temporals.format(fechaDia, 'dd/MM/yyyy')}">
+                            06/11/2026
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESULTADOS -->
+        <section class="client-schedules-results" aria-labelledby="schedules-title">
+
+            <div class="client-schedules-results__heading">
+
+                <div>
+
+                    <span class="section-kicker">
+                        TU PRÓXIMA VISITA
+                    </span>
+
+                    <h2 id="schedules-title">
+                        Horarios para este día
+                    </h2>
+
+                    <p th:if="${fechaSeleccionada != null}"
+                        th:text="${'Fecha seleccionada: ' + #temporals.format(fechaSeleccionada, 'dd/MM/yyyy')}">
+                        Fecha seleccionada
+                    </p>
+
+                </div>
+
+                <span class="client-schedules-count" th:if="${hayHorarios}"
+                    th:text="${horarios.size() == 1 ? '1 jornada' : horarios.size() + ' jornadas'}">
+
+                    2 jornadas
+
+                </span>
+
+            </div>
+
+
+            <!-- HORARIOS DEL DÍA -->
+            <div th:if="${hayHorarios}">
+
+                <form th:action="@{/cliente/reservas/nueva}" method="get" class="client-schedules-selection-form"
+                    th:attr="aria-label=|Horarios del ${#temporals.format(fechaSeleccionada, 'dd/MM/yyyy')}|">
+
+                    <fieldset class="client-schedules-fieldset">
+
+                        <legend class="visually-hidden">
+                            Selecciona el horario que prefieres.
+                        </legend>
+
+                        <div class="row row-cols-1 row-cols-md-2 g-4">
+
+                            <div class="col" th:each="horario : ${horarios}">
+
+                                <article class="client-schedule-card h-100"
+                                    th:classappend="${horario.completo} ? ' client-schedule-card--full' : ''">
+
+                                    <input class="client-schedule-card__radio" type="radio" name="horarioId"
+                                        th:id="|horario-${horario.id}|" th:value="${horario.id}"
+                                        th:disabled="${horario.completo}" required>
+
+                                    <div class="client-schedule-card__cover">
+
+                                        <div class="client-schedule-card__icon" aria-hidden="true">
+
+                                            <i class="ri-calendar-event-fill"></i>
+
+                                        </div>
+
+                                        <span class="client-schedule-card__tag">
+                                            MIMI Y ZIZI
+                                        </span>
+
+                                        <span class="client-schedule-card__status">
+
+                                            <span></span>
+
+                                            <span th:text="${horario.completo ? 'Completo' : 'Disponible'}">
+                                                Disponible
+                                            </span>
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="client-schedule-card__body">
+
+                                        <div class="client-schedule-card__date">
+
+                                            <span>
+                                                <i class="ri-calendar-line" aria-hidden="true"></i>
+
+                                                FECHA DE ATENCIÓN
+                                            </span>
+
+                                            <h3 th:text="${horario.fecha}">
+                                                06/11/2026
+                                            </h3>
+
+                                        </div>
+
+
+                                        <div class="client-schedule-card__time">
+
+                                            <div class="client-schedule-card__time-icon" aria-hidden="true">
+
+                                                <i class="ri-time-line"></i>
+
+                                            </div>
+
+                                            <div>
+
+                                                <span>HORARIO DE ATENCIÓN</span>
+
+                                                <strong>
+
+                                                    <span th:text="${horario.horaInicio}">
+                                                        08:00
+                                                    </span>
+
+                                                    <span class="client-schedule-card__separator">
+                                                        —
+                                                    </span>
+
+                                                    <span th:text="${horario.horaFin}">
+                                                        10:00
+                                                    </span>
+
+                                                </strong>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- CITAS DISPONIBLES -->
+                                        <div class="client-schedule-card__capacity">
+
+                                            <div>
+
+                                                <i class="ri-calendar-check-line" aria-hidden="true"></i>
+
+                                                <span>Citas disponibles</span>
+
+                                            </div>
+
+                                            <strong
+                                                th:text="${horario.citasDisponibles == 1 ? '1 cita' : horario.citasDisponibles + ' citas'}">
+
+                                                3 citas
+
+                                            </strong>
+
+                                        </div>
+
+
+                                        <!-- SELECTOR -->
+                                        <label class="client-schedule-card__select" th:for="|horario-${horario.id}|">
+
+                                            <span th:if="${not horario.completo}">
+                                                Elegir este horario
+                                            </span>
+
+                                            <span th:if="${horario.completo}">
+                                                Horario completo
+                                            </span>
+
+                                            <i th:class="${horario.completo ? 'ri-lock-line' : 'ri-arrow-right-line'}"
+                                                aria-hidden="true"></i>
+
+                                        </label>
+
+                                    </div>
+
+                                </article>
+
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+
+
+                    <!-- CONTINUAR -->
+                    <div th:if="${hayCitasDisponibles}" class="client-schedules-selection-footer">
+
+                        <div>
+
+                            <strong>
+                                ¿Encontraste el horario ideal?
+                            </strong>
+
+                            <p>
+                                Selecciona una jornada para continuar con tu reserva.
+                            </p>
+
+                        </div>
+
+                        <button type="submit" class="client-schedules-continue">
+
+                            Continuar con mi cita
+
+                            <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+
+                <!-- TODOS LOS HORARIOS COMPLETOS -->
+                <div th:unless="${hayCitasDisponibles}" class="client-schedules-full-message">
+
+                    <i class="ri-calendar-close-line" aria-hidden="true"></i>
+
+                    <div>
+
+                        <strong>
+                            ¡Este día ya está completo!
+                        </strong>
+
+                        <p>
+                            No quedan citas disponibles para esta fecha.
+                            Prueba seleccionando otro día.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- NO HAY HORARIOS PARA LA FECHA -->
+            <div th:unless="${hayHorarios}" class="client-schedules-empty">
+
+                <div class="client-schedules-empty__icon" aria-hidden="true">
+
+                    <i class="ri-calendar-search-line"></i>
+
+                </div>
+
+                <span class="section-kicker">
+                    BUSQUEMOS OTRO MOMENTO
+                </span>
+
+                <h3>
+                    No tenemos horarios para esta fecha.
+                </h3>
+
+                <p>
+                    Prueba seleccionando otro día en el calendario.
+                    Estaremos encantados de recibirte y consentir a tu mascota.
+                </p>
+
+                <a th:if="${not #lists.isEmpty(fechasDisponibles)}"
+                    th:href="@{/cliente/horarios(fecha=${fechasDisponibles[0]})}" class="client-schedules-empty__link">
+
+                    Ver próxima fecha disponible
+
+                    <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- INFORMACIÓN -->
+        <section class="client-schedules-note">
+
+            <i class="ri-heart-3-line" aria-hidden="true"></i>
+
+            <p>
+                La cantidad indicada representa las citas que todavía puedes reservar.
+                La disponibilidad se verifica nuevamente al confirmar tu reserva.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="client-schedules-footer">
+
+        <div class="container">
+
+            <p>
+                © 2026 Mimi y Zizi.
+                Cuidamos a quienes hacen más felices tus días.
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

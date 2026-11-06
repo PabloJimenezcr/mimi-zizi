@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff6ef">
+    <meta name="description" content="Mimi y Zizi · Grooming que se siente como un abrazo.">
+    <title>Mimi y Zizi · Peluquería Canina</title>
+    <link rel="icon" type="image/png" sizes="512x512" th:href="@{/assets/img/favicon-512.png}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/main.css}">
+</head>
+
+<body th:attr="data-auth-view=${authView}, data-auth-notice=${authNotice}, data-login-error=${loginError}">
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <div th:replace="~{fragments/loader :: siteLoader}"></div>
+
+    <script th:src="@{/assets/js/loader.js}"></script>
+
+
+
+    <div class="floating-ui" aria-hidden="true">
+        <span class="float-tag tag-paw"><i class="ri-paw-line"></i></span>
+        <span class="float-tag tag-scissor"><i class="ri-scissors-2-line"></i></span>
+        <span class="float-tag tag-heart"><i class="ri-heart-3-fill"></i></span>
+    </div>
+    <canvas id="bubbleCanvas" aria-hidden="true"></canvas>
+
+    <header class="site-header" id="siteHeader">
+        <div class="container-fluid container-xxl px-3 px-lg-4">
+            <nav class="nav-shell" aria-label="Navegación principal">
+                <a class="brand" href="#inicio" aria-label="Mimi y Zizi, inicio">
+                    <img th:src="@{/assets/img/logo-mimi-zizi.png}" alt="Mimi y Zizi">
+                </a>
+                <button class="nav-toggle" id="navToggle" type="button" aria-controls="navMenu" aria-expanded="false"
+                    aria-label="Abrir menú">
+                    <span></span><span></span>
+                </button>
+                <div class="nav-menu" id="navMenu">
+                    <a class="nav-link active" href="#inicio">Inicio</a>
+                    <a class="nav-link" href="#servicios">Servicios</a>
+                    <a class="nav-link" href="#ritual">Ritual</a>
+                    <a class="nav-link" href="#como-funciona">Cómo funciona</a>
+                    <a class="nav-link" href="#app-experience">En tu móvil</a>
+                    <a class="nav-link" href="#historias">Historias</a>
+                    <div class="nav-auth" aria-label="Acceso de clientes">
+                        <button class="btn-pill btn-pill--ghost js-login" type="button">
+                            <i class="ri-user-line" aria-hidden="true"></i>
+                            <span>Iniciar sesión</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="contenido">
+        <section class="hero" id="inicio">
+            <div class="hero__wash wash-one"></div>
+            <div class="hero__wash wash-two"></div>
+            <div class="container-fluid container-xxl px-3 px-lg-4 position-relative">
+                <div class="row align-items-center g-0 hero__grid">
+                    <div class="col-lg-6 hero__copy">
+                        <div class="eyebrow"><span class="eyebrow__dot"></span> MÁS QUE GROOMING <span
+                                class="eyebrow__line"></span> UNA EXPERIENCIA PARA ELLOS</div>
+                        <h1 class="hero__title">Tu mejor amigo<br>merece un <em>WOW</em><span
+                                class="hero__heart">♡</span></h1>
+                        <p class="hero__lead">Grooming profesional con cariño, cuidado y mucho estilo para consentir a
+                            quienes son parte de tu familia.</p>
+                        <div class="hero__actions">
+                            <button class="btn-hero js-book" type="button"><span>Reservar cita</span><i
+                                    class="ri-arrow-right-up-line"></i></button>
+                            <a class="btn-hero btn-hero--outline" href="#servicios"><span>Explorar servicios</span><i
+                                    class="ri-arrow-down-line"></i></a>
+                        </div>
+                        <div class="hero__account-note py-3"><span>¿Es tu primera visita?</span><button type="button"
+                                class="hero__account-link js-register">Crear cuenta gratis <i
+                                    class="ri-arrow-up-right-line"></i></button></div>
+                        <div class="hero__trust">
+                            <span><i class="ri-shield-check-line"></i> Profesionales especializados</span>
+                            <span><i class="ri-heart-3-line"></i> Cuidado personalizado</span>
+                            <span><i class="ri-sparkling-2-line"></i> Productos premium</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 hero__visual-wrap">
+                        <div class="hero__visual" id="heroVisual">
+                            <div class="hero__circle"></div>
+                            <div class="hero__ring ring-one"></div>
+                            <div class="hero__ring ring-two"></div>
+                            <div class="hero__photo hero__photo--main" data-parallax="0.16" role="img"
+                                aria-label="Perro feliz después de grooming"></div>
+                            <div class="hero__photo hero__photo--small" data-parallax="0.25" role="img"
+                                aria-label="Mascota disfrutando de su grooming"></div>
+                            <div class="hero__logo-card" data-parallax="0.12">
+                                <img th:src="@{/assets/img/logo-mimi-zizi.png}" alt="Mimi y Zizi">
+                            </div>
+                            <div class="hero__badge badge-top"><i
+                                    class="ri-sparkling-fill"></i><span>GROOMING<br><strong>CON AMOR</strong></span>
+                            </div>
+                            <div class="hero__badge badge-bottom"><span>4.9</span><i
+                                    class="ri-star-fill"></i><small>+500 mascotas felices</small></div>
+                            <div class="hero__bubble hero__bubble--a"></div>
+                            <div class="hero__bubble hero__bubble--b"></div>
+                            <div class="hero__bubble hero__bubble--c"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="ticker-section" aria-label="Principios de Mimi y Zizi">
+            <div class="ticker-track">
+                <span>✦ GROOMING PROFESIONAL</span><span>♡ CUIDADO PERSONALIZADO</span><span>✦ MASCOTAS
+                    FELICES</span><span>♡ PRODUCTOS DE CALIDAD</span><span>✦ GROOMING PROFESIONAL</span><span>♡ CUIDADO
+                    PERSONALIZADO</span><span>✦ MASCOTAS FELICES</span><span>♡ PRODUCTOS DE CALIDAD</span>
+            </div>
+        </section>
+
+        <section class="intro section-space">
+            <div class="container container-xxl">
+                <div class="row align-items-end g-4">
+                    <div class="col-lg-7">
+                        <div class="section-kicker">01 / LA EXPERIENCIA</div>
+                        <h2 class="display-title">No hacemos solo un baño.<br><span>creamos un momento</span> que ellos
+                            recuerdan.</h2>
+                    </div>
+                    <div class="col-lg-4 ms-auto">
+                        <p class="body-copy">Desde el primer contacto hasta ese momento en que salen moviendo la cola,
+                            todo está pensado para que tu mascota se sienta segura, consentida y espectacular.</p>
+                    </div>
+                </div>
+                <div class="intro-stage mt-5" id="ritual">
+                    <div class="intro-stage__wash"></div>
+                    <div class="intro-stage__bubble bubble-x"></div>
+                    <div class="intro-stage__bubble bubble-y"></div>
+                    <div class="intro-stage__bubble bubble-z"></div>
+                    <div class="intro-stage__content">
+                        <div class="ritual-counter">01 — 04</div>
+                        <div class="ritual-word" id="ritualWord">FRESH</div>
+                        <p id="ritualText">Baño suave, secado cuidadoso y la sensación de salir como nuevo.</p>
+                        <div class="ritual-controls">
+                            <button type="button" class="ritual-dot is-active" data-ritual="0"
+                                aria-label="Ver Fresh"></button>
+                            <button type="button" class="ritual-dot" data-ritual="1" aria-label="Ver Style"></button>
+                            <button type="button" class="ritual-dot" data-ritual="2" aria-label="Ver Glow"></button>
+                            <button type="button" class="ritual-dot" data-ritual="3" aria-label="Ver Happy"></button>
+                        </div>
+                    </div>
+                    <div class="intro-stage__image" id="ritualImage" role="img"
+                        aria-label="Perro disfrutando un grooming">
+                        <div class="image-sheen"></div>
+                    </div>
+                    <div class="intro-stage__caption">THE MIMI &amp; ZIZI RITUAL</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services section-space" id="servicios">
+            <div class="container container-xxl">
+                <div class="section-head row align-items-end g-4">
+                    <div class="col-lg-7">
+                        <div class="section-kicker">02 / SERVICIOS</div>
+                        <h2 class="display-title">Elige su <span>momento favorito.</span></h2>
+                    </div>
+                    <div class="col-lg-4 ms-auto">
+                        <p class="body-copy">Un menú de grooming diseñado como un ritual: esencial, especializado y
+                            deliciosamente visual.</p>
+                    </div>
+                </div>
+                <div class="service-grid mt-5">
+                    <article class="service-card service-card--large reveal-card" data-tone="pink">
+                        <div class="service-card__num">01</div>
+                        <div class="service-card__icon"><i class="ri-drop-line"></i></div>
+                        <div class="service-card__content"><small>ESSENTIAL</small>
+                            <h3>Baño &amp; secado</h3>
+                            <p>Limpieza profunda + secado cuidadoso para una sensación de frescura total.</p><button
+                                type="button" class="service-card__cta js-book" aria-label="Reservar baño y secado"><i
+                                    class="ri-arrow-right-up-line"></i></button>
+                        </div>
+                        <div class="service-card__photo photo-bath" role="img" aria-label="Perro en baño y secado">
+                        </div>
+                    </article>
+                    <article class="service-card reveal-card" data-tone="cyan">
+                        <div class="service-card__num">02</div>
+                        <div class="service-card__content"><small>STYLE</small>
+                            <h3>Corte &amp; estilizado</h3>
+                            <p>Un look pensado para su raza y personalidad.</p><button type="button"
+                                class="service-card__cta js-book" aria-label="Reservar corte y estilizado"><i
+                                    class="ri-arrow-right-up-line"></i></button>
+                        </div>
+                        <div class="service-card__photo photo-style" role="img" aria-label="Perro estilizado"></div>
+                    </article>
+                    <article class="service-card reveal-card" data-tone="navy">
+                        <div class="service-card__num">03</div>
+                        <div class="service-card__content"><small>COMPLETE</small>
+                            <h3>Grooming completo</h3>
+                            <p>Baño, corte, uñas, oídos y detalles finales.</p><button type="button"
+                                class="service-card__cta js-book" aria-label="Reservar grooming completo"><i
+                                    class="ri-arrow-right-up-line"></i></button>
+                        </div>
+                        <div class="service-card__photo photo-full" role="img"
+                            aria-label="Perro feliz después del grooming"></div>
+                    </article>
+                    <article class="service-card reveal-card" data-tone="peach">
+                        <div class="service-card__num">04</div>
+                        <div class="service-card__content"><small>SPA</small>
+                            <h3>Zen spa</h3>
+                            <p>Una pausa de bienestar para consentirlos de verdad.</p><button type="button"
+                                class="service-card__cta js-book" aria-label="Reservar spa"><i
+                                    class="ri-arrow-right-up-line"></i></button>
+                        </div>
+                        <div class="service-card__photo photo-spa" role="img"
+                            aria-label="Perro en un entorno relajante"></div>
+                    </article>
+                    <article class="service-card service-card--wide reveal-card" data-tone="cream">
+                        <div class="service-card__num">05</div>
+                        <div class="service-card__content"><small>EXTRA LOVE</small>
+                            <h3>Detalles que hacen la diferencia</h3>
+                            <p>Corte de uñas, limpieza de oídos, deslanado, paquetes y extras personalizados.</p><button
+                                type="button" class="service-card__cta js-book"
+                                aria-label="Ver servicios adicionales"><i class="ri-arrow-right-up-line"></i></button>
+                        </div>
+                        <div class="service-card__sticker"><i class="ri-paw-fill"></i><span>TODO<br>POR
+                                SU<br>BIENESTAR</span></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="finder section-space" id="finder">
+            <div class="container container-xxl">
+                <div class="finder__wrap">
+                    <div class="finder__bubble"><span>¿No sabes qué elegir?</span><i class="ri-question-line"></i></div>
+                    <div class="section-kicker">03 / ENCUENTRA SU RITUAL</div>
+                    <div class="row align-items-end g-4">
+                        <div class="col-lg-6">
+                            <h2 class="display-title display-title--light">Dinos cómo es tu <span>peludito.</span></h2>
+                        </div>
+                        <div class="col-lg-4 ms-auto">
+                            <p class="body-copy body-copy--light">Tres preguntas. Un ritual pensado para él.</p>
+                        </div>
+                    </div>
+                    <div class="finder__steps mt-5" id="finderSteps">
+                        <div class="finder-step is-active" data-q="0">
+                            <div class="finder-step__top"><span>01</span><small>SU ENERGÍA</small></div>
+                            <h3>¿Es más...</h3>
+                            <div class="finder-options"><button type="button" data-value="chill">tranqui
+                                    ✦</button><button type="button" data-value="active">juguetón ♡</button><button
+                                    type="button" data-value="royal">todo un rey ✨</button></div>
+                        </div>
+                        <div class="finder-step" data-q="1">
+                            <div class="finder-step__top"><span>02</span><small>SU PELO</small></div>
+                            <h3>¿Cómo es?</h3>
+                            <div class="finder-options"><button type="button" data-value="short">cortito</button><button
+                                    type="button" data-value="long">abundante</button><button type="button"
+                                    data-value="curly">rizado</button></div>
+                        </div>
+                        <div class="finder-step" data-q="2">
+                            <div class="finder-step__top"><span>03</span><small>SU PLAN</small></div>
+                            <h3>Hoy queremos...</h3>
+                            <div class="finder-options"><button type="button" data-value="fresh">verse
+                                    fresco</button><button type="button" data-value="style">un look WOW</button><button
+                                    type="button" data-value="spa">relajarse</button></div>
+                        </div>
+                    </div>
+                    <div class="finder__result" id="finderResult" hidden>
+                        <div class="result-orbit"></div>
+                        <span>SU RITUAL IDEAL</span><strong id="resultTitle">Signature Style</strong>
+                        <p id="resultText">Una experiencia completa para salir guapísimo.</p>
+                        <button type="button" class="btn-hero btn-hero--pink js-book">Iniciar sesión para reservar <i
+                                class="ri-arrow-right-up-line"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="app-experience section-space" id="app-experience">
+            <div class="app-experience__glow app-glow-one"></div>
+            <div class="app-experience__glow app-glow-two"></div>
+            <div class="container container-xxl">
+                <div class="app-experience__head row align-items-end g-4">
+                    <div class="col-lg-7">
+                        <div class="section-kicker">04 / TU GROOMING, EN TU MANO</div>
+                        <h2 class="display-title">Tu cita vive <span>contigo.</span></h2>
+                    </div>
+                    <div class="col-lg-4 ms-auto">
+                        <p class="body-copy">Desde tu teléfono puedes revisar a tu peludito, elegir su servicio y llegar
+                            con la cita lista. Sin llamadas. Sin esperas. Solo un par de toques.</p>
+                    </div>
+                </div>
+
+                <div class="phone-stage mt-5">
+                    <div class="phone-stage__word word-one">BOOK</div>
+                    <div class="phone-stage__word word-two">GROOM</div>
+                    <div class="phone-stage__orb orb-one"></div>
+                    <div class="phone-stage__orb orb-two"></div>
+
+                    <div class="phone-float phone-float--top">
+                        <span class="phone-float__icon"><i class="ri-check-double-line"></i></span>
+                        <span><strong>Cita confirmada</strong><small>Hoy · 10:30 AM</small></span>
+                    </div>
+                    <div class="phone-float phone-float--side">
+                        <span class="phone-float__icon"><i class="ri-notification-3-line"></i></span>
+                        <span><strong>Recordatorio</strong><small>Tu cita es mañana</small></span>
+                    </div>
+
+                    <div class="phone-device" id="phoneDevice">
+                        <div class="phone-device__frame">
+                            <div class="phone-device__speaker"></div>
+                            <div class="phone-screen">
+                                <div class="phone-screen__top">
+                                    <span class="phone-brand-mini"><span class="phone-brand-mini__paw"><i
+                                                class="ri-paw-fill"></i></span> mimi &amp; zizi</span>
+                                    <span class="phone-avatar">M</span>
+                                </div>
+                                <div class="phone-screen__hello"><small>BUENOS DÍAS, MARÍA</small>
+                                    <h3>Hola. Hoy toca<br><span>consentir a Luna.</span> ♡</h3>
+                                </div>
+                                <div class="phone-pet-card">
+                                    <div class="phone-pet-thumb" aria-hidden="true"></div>
+                                    <div><span>LUNA</span><strong>Golden Retriever · 4 años</strong><small>Su próxima
+                                            visita</small></div>
+                                    <i class="ri-arrow-right-up-line"></i>
+                                </div>
+                                <div class="phone-section-title"><span>Próxima cita</span><a href="#"
+                                        onclick="return false">Ver agenda</a></div>
+                                <div class="phone-date-row">
+                                    <div class="phone-date"><small>LUN</small><strong>26</strong></div>
+                                    <div class="phone-date"><small>MAR</small><strong>27</strong></div>
+                                    <div class="phone-date is-active"><small>MIÉ</small><strong>28</strong></div>
+                                    <div class="phone-date"><small>JUE</small><strong>29</strong></div>
+                                </div>
+                                <div class="phone-booking-card">
+                                    <div><span>GROOMING COMPLETO</span><strong>Miércoles · 10:30
+                                            AM</strong><small>Confirmada · 45 min</small></div>
+                                    <span class="phone-status">LISTA</span>
+                                </div>
+                                <button type="button" class="phone-book-btn js-book">Reservar nueva cita <i
+                                        class="ri-arrow-right-up-line"></i></button>
+                                <div class="phone-nav" aria-hidden="true"><i class="ri-home-5-line is-active"></i><i
+                                        class="ri-calendar-line"></i><i class="ri-paw-line"></i><i
+                                        class="ri-user-3-line"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="phone-copy">
+                        <div class="phone-copy__eyebrow"><span class="pulse-dot"></span> 24/7 DESDE TU CELULAR</div>
+                        <h3>Reserva mientras vas camino al trabajo. <em>O desde el sofá.</em></h3>
+                        <p>La experiencia continúa fuera del salón: perfiles de mascotas, recordatorios y disponibilidad
+                            en un solo lugar.</p>
+                        <div class="phone-copy__points">
+                            <span><i class="ri-calendar-check-line"></i> Agenda en segundos</span>
+                            <span><i class="ri-notification-3-line"></i> Recordatorios automáticos</span>
+                            <span><i class="ri-paw-line"></i> Perfil de cada mascota</span>
+                        </div>
+                        <button type="button" class="btn-hero btn-hero--pink js-book">Quiero reservar <i
+                                class="ri-arrow-right-up-line"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="stories section-space" id="historias">
+            <div class="container container-xxl">
+                <div class="section-head row align-items-end g-4">
+                    <div class="col-lg-7">
+                        <div class="section-kicker">04 / HAPPY CLIENTS</div>
+                        <h2 class="display-title">Después del grooming,<br><span>pasa el “WOW”.</span></h2>
+                    </div>
+                    <div class="col-lg-4 ms-auto">
+                        <p class="body-copy">Historias reales de ese momento cuando su humano lo ve y sonríe.</p>
+                    </div>
+                </div>
+                <div class="story-stage mt-5">
+                    <div class="story-stage__photo" role="img" aria-label="Perro feliz después de grooming"></div>
+                    <div class="story-stage__quote">
+                        <div class="quote-mark">“</div>
+                        <p>Entró con cara de lunes y salió como si tuviera una portada de revista.</p>
+                        <div class="quote-meta"><span class="avatar avatar-luna"></span>
+                            <div><strong>Luna &amp; María</strong><small>Grooming completo · 5/5</small></div>
+                        </div>
+                    </div>
+                    <div class="story-stage__mini"><strong>4.9/5</strong><span><i class="ri-star-fill"></i><i
+                                class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i
+                                class="ri-star-fill"></i></span><small>+500 mascotas consentidas</small></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="process section-space" id="como-funciona">
+            <div class="container container-xxl">
+                <div class="process__hero">
+                    <div>
+                        <div class="section-kicker">05 / CÓMO FUNCIONA</div>
+                        <h2 class="display-title">Su próxima visita<br>empieza <span>aquí.</span></h2>
+                    </div>
+                    <div class="process__stamp">MIMI<br>&amp;<br>ZIZI</div>
+                </div>
+                <div class="process-track mt-5">
+                    <div class="process-line"><span></span></div>
+                    <article class="process-step"><span class="process-step__num">01</span><i
+                            class="ri-user-add-line"></i>
+                        <h3>Inicia sesión</h3>
+                        <p>Accede a tu cuenta en segundos.</p>
+                    </article>
+                    <article class="process-step"><span class="process-step__num">02</span><i class="ri-paw-line"></i>
+                        <h3>Elige su perfil</h3>
+                        <p>Ten tus mascotas y preferencias listas.</p>
+                    </article>
+                    <article class="process-step"><span class="process-step__num">03</span><i
+                            class="ri-calendar-schedule-line"></i>
+                        <h3>Agenda</h3>
+                        <p>Selecciona servicio, fecha y hora.</p>
+                    </article>
+                    <article class="process-step"><span class="process-step__num">04</span><i
+                            class="ri-sparkling-line"></i>
+                        <h3>Nosotros hacemos el resto</h3>
+                        <p>Y tú recibes una mascota feliz.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta">
+            <div class="final-cta__bubbles"><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="container container-xxl position-relative">
+                <div class="final-cta__content">
+                    <div class="section-kicker">06 / NOS VEMOS PRONTO</div>
+                    <h2>Listos para su<br><span>momento WOW?</span></h2>
+                    <p>Entra a tu cuenta y reserva su próxima experiencia.</p><button
+                        class="btn-hero btn-hero--pink js-book" type="button">Iniciar sesión para reservar <i
+                            class="ri-arrow-right-up-line"></i></button>
+                </div>
+                <div class="final-cta__logo"><img th:src="@{/assets/img/logo-mimi-zizi.png}" alt="Mimi y Zizi"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container container-xxl">
+            <div class="row g-4 align-items-end">
+                <div class="col-lg-5"><img class="footer-logo" th:src="@{/assets/img/logo-mimi-zizi.png}"
+                        alt="Mimi y Zizi">
+                    <p>Grooming profesional, cariño y una experiencia que se siente.</p>
+                </div>
+                <div class="col-lg-7">
+                    <div class="footer-links"><a href="#inicio">Inicio</a><a href="#servicios">Servicios</a><a
+                            href="#como-funciona">Cómo funciona</a><a href="#historias">Historias</a><button
+                            class="link-button js-login" type="button">Iniciar sesión</button></div>
+                    <div class="footer-bottom"><span>© 2026 Mimi y Zizi</span><span>Hecho para mascotas felices
+                            ♡</span><button id="motionToggle" class="motion-toggle" type="button"
+                            aria-pressed="false"><i class="ri-pause-line"></i> Pausar movimiento</button></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div th:replace="~{fragments/auth-modal :: modalAuth}"></div>
+
+    <!-- LIBRERÍAS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js"></script>
+
+    <!-- BOOTSTRAP -->
+    <script defer th:src="@{/webjars/bootstrap/5.3.8/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- JAVASCRIPT DEL LANDING -->
+    <script defer th:src="@{/assets/js/app.js}"></script>
+    <script defer th:src="@{/assets/js/auth.js}"></script>
+
+</body>
+
+</html>

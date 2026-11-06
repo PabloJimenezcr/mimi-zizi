@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="theme-color" content="#071b29">
+
+  <title>Panel de administración | Mimi y Zizi</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
+
+  <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body class="admin-body">
+
+  <a href="#main-content" class="admin-skip-link">
+    Saltar al contenido principal
+  </a>
+
+  <div class="admin-shell">
+
+    <!-- Menú lateral -->
+    <div th:replace="~{fragments/admin-sidebar :: sidebar}"></div>
+
+    <!-- Fondo del menú móvil -->
+    <button type="button" class="admin-sidebar-backdrop" data-admin-menu-close aria-label="Cerrar menú de navegación">
+    </button>
+
+    <!-- Contenido principal -->
+    <main class="admin-main" id="main-content" tabindex="-1">
+
+      <!-- Barra superior -->
+      <header class="admin-topbar">
+
+        <div class="admin-topbar__left">
+
+          <button class="admin-menu-toggle" type="button" data-admin-menu-toggle aria-controls="adminSidebar"
+            aria-expanded="false" aria-label="Abrir menú de navegación">
+
+            <i class="ri-menu-2-line" aria-hidden="true"></i>
+
+          </button>
+
+          <nav class="admin-breadcrumb" aria-label="Ubicación">
+            <span>Administración</span>
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+            <strong>Inicio</strong>
+          </nav>
+
+        </div>
+
+        <div class="admin-topbar__identity">
+          <i class="ri-shield-user-line" aria-hidden="true"></i>
+
+          <span>Administrador</span>
+        </div>
+
+      </header>
+
+      <!-- Encabezado -->
+      <section class="admin-page-heading">
+
+        <span class="section-kicker">
+          CENTRO DE CONTROL
+        </span>
+
+        <h1>Panel de administración</h1>
+
+        <p>
+          Gestiona las operaciones de Mimi y Zizi desde un solo lugar.
+          Aquí podrás organizar los usuarios, mascotas, servicios y citas.
+        </p>
+
+      </section>
+
+      <!-- Bienvenida -->
+      <section class="admin-welcome" aria-labelledby="welcome-title">
+
+        <div class="admin-welcome__content">
+
+          <span class="admin-welcome__eyebrow">
+            <i class="ri-sparkling-2-line" aria-hidden="true"></i>
+            BIENVENIDO A MIMI Y ZIZI
+          </span>
+
+          <h2 id="welcome-title">
+            ¡Hola,
+            <span th:text="${nombreAdministrador}">
+              administrador
+            </span>!
+          </h2>
+
+          <p>
+            Este es tu espacio de trabajo. Desde aquí construiremos
+            las herramientas necesarias para administrar el negocio
+            y ofrecer una mejor experiencia a nuestros clientes.
+          </p>
+
+        </div>
+
+        <div class="admin-welcome__decoration" aria-hidden="true">
+          <i class="ri-paw-print-fill"></i>
+        </div>
+
+      </section>
+
+      <!-- Módulos -->
+      <section class="admin-modules" id="admin-modules" aria-labelledby="modules-title">
+
+        <div class="admin-section-heading">
+
+          <div>
+            <span class="section-kicker">ORGANIZACIÓN</span>
+
+            <h2 id="modules-title">
+              Módulos de gestión
+            </h2>
+
+            <p>
+              Las diferentes áreas que conformarán el sistema.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="admin-module-grid">
+
+          <article class="admin-module-card">
+
+            <div class="admin-module-card__top">
+              <div class="admin-module-card__icon">
+                <i class="ri-user-settings-line" aria-hidden="true"></i>
+              </div>
+
+              <span class="admin-module-card__status">
+                Siguiente etapa
+              </span>
+            </div>
+
+            <h3>Usuarios y roles</h3>
+
+            <p>
+              Consulta las cuentas registradas, administra
+              su información y controla sus permisos.
+            </p>
+
+          </article>
+
+          <article class="admin-module-card">
+
+            <div class="admin-module-card__top">
+              <div class="admin-module-card__icon">
+                <i class="ri-baidu-line" aria-hidden="true"></i>
+              </div>
+
+              <span class="admin-module-card__status">
+                Próximamente
+              </span>
+            </div>
+
+            <h3>Mascotas</h3>
+
+            <p>
+              Organiza los perfiles, características
+              y datos de las mascotas registradas.
+            </p>
+
+          </article>
+
+          <article class="admin-module-card">
+
+            <div class="admin-module-card__top">
+              <div class="admin-module-card__icon">
+                <i class="ri-scissors-cut-line" aria-hidden="true"></i>
+              </div>
+
+              <span class="admin-module-card__status">
+                Próximamente
+              </span>
+            </div>
+
+            <h3>Servicios</h3>
+
+            <p>
+              Administra el catálogo, los precios
+              y la duración de cada servicio.
+            </p>
+
+          </article>
+
+          <article class="admin-module-card">
+
+            <div class="admin-module-card__top">
+              <div class="admin-module-card__icon">
+                <i class="ri-calendar-schedule-line" aria-hidden="true"></i>
+              </div>
+
+              <span class="admin-module-card__status">
+                Próximamente
+              </span>
+            </div>
+
+            <h3>Horarios</h3>
+
+            <p>
+              Organiza los horarios disponibles,
+              sus capacidades y bloqueos.
+            </p>
+
+          </article>
+
+          <article class="admin-module-card">
+
+            <div class="admin-module-card__top">
+              <div class="admin-module-card__icon">
+                <i class="ri-calendar-check-line" aria-hidden="true"></i>
+              </div>
+
+              <span class="admin-module-card__status">
+                Próximamente
+              </span>
+            </div>
+
+            <h3>Citas</h3>
+
+            <p>
+              Consulta las reservaciones y administra
+              los estados de cada cita.
+            </p>
+
+          </article>
+
+          <article class="admin-module-card">
+
+            <div class="admin-module-card__top">
+              <div class="admin-module-card__icon">
+                <i class="ri-medal-line" aria-hidden="true"></i>
+              </div>
+
+              <span class="admin-module-card__status">
+                Próximamente
+              </span>
+            </div>
+
+            <h3>Programa de puntos</h3>
+
+            <p>
+              Consulta y administra los movimientos
+              de puntos de los clientes.
+            </p>
+
+          </article>
+
+        </div>
+
+      </section>
+
+      <!-- Información -->
+      <aside class="admin-information">
+
+        <i class="ri-information-line" aria-hidden="true"></i>
+
+        <p>
+          El panel se está construyendo por módulos.
+          Implementaremos cada sección con sus respectivas
+          validaciones, controles de acceso y operaciones
+          sobre la base de datos.
+        </p>
+
+      </aside>
+
+    </main>
+
+  </div>
+
+  <script th:src="@{/assets/js/admin.js}" defer></script>
+
+</body>
+
+</html>

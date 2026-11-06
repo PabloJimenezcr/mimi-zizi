@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#071b29">
+
+    <title>Reservar una cita | Mimi y Zizi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body class="client-reservation-page">
+
+    <a href="#main-content" class="reservation-skip">
+        Saltar al contenido principal
+    </a>
+
+    <!-- HEADER -->
+    <header class="reservation-header">
+        <div class="container">
+
+            <nav class="reservation-nav" aria-label="Navegación principal">
+
+                <a th:href="@{/cliente/inicio}" class="reservation-brand">
+                    <img th:src="@{/assets/img/logo-mimi-zizi.png}" alt="Mimi y Zizi">
+                </a>
+
+                <div class="reservation-nav__actions">
+
+                    <a th:href="@{/cliente/inicio}" class="reservation-back">
+                        <i class="ri-arrow-left-line" aria-hidden="true"></i>
+                        <span>Mi cuenta</span>
+                    </a>
+
+                    <form th:action="@{/logout}" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                        <button type="submit" class="reservation-logout">
+                            <i class="ri-logout-box-r-line" aria-hidden="true"></i>
+                            <span>Cerrar sesión</span>
+                        </button>
+                    </form>
+
+                </div>
+            </nav>
+
+        </div>
+    </header>
+
+    <main class="container reservation-main" id="main-content" tabindex="-1">
+
+        <!-- BREADCRUMB -->
+        <nav class="reservation-breadcrumb" aria-label="Ubicación">
+
+            <a th:href="@{/cliente/inicio}">Mi cuenta</a>
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+
+            <a th:href="@{/cliente/horarios}">Horarios</a>
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+
+            <span aria-current="page">Reservar cita</span>
+
+        </nav>
+
+        <!-- INTRODUCCIÓN -->
+        <section class="reservation-intro">
+
+            <span class="section-kicker">UN MOMENTO ESPECIAL PARA ELLOS</span>
+
+            <h1>
+                Preparemos su
+                <span>próxima visita.</span>
+            </h1>
+
+            <p>
+                Completa los siguientes pasos para personalizar
+                la experiencia de cuidado de tu mascota.
+            </p>
+
+        </section>
+
+        <!-- PROGRESO -->
+        <div class="reservation-progress" aria-label="Proceso de reserva">
+
+            <div class="reservation-progress__step reservation-progress__step--active">
+                <span>1</span>
+                <strong>Tu reserva</strong>
+            </div>
+
+            <div class="reservation-progress__line"></div>
+
+            <div class="reservation-progress__step">
+                <span>2</span>
+                <strong>Confirmación</strong>
+            </div>
+
+        </div>
+
+        <!-- FORMULARIO -->
+        <form th:action="@{/cliente/reservas}" th:object="${reservaForm}" method="post" id="reservation-form"
+            novalidate>
+
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+            <input type="hidden" th:field="*{horarioId}">
+
+            <div th:if="${errorGeneral}" class="reservation-alert reservation-alert--error" role="alert">
+
+                <i class="ri-error-warning-line" aria-hidden="true"></i>
+                <span th:text="${errorGeneral}"></span>
+
+            </div>
+
+            <div class="row g-4">
+
+                <!-- COLUMNA PRINCIPAL -->
+                <div class="col-lg-8">
+
+                    <!-- PASO 1: HORARIO -->
+                    <section class="reservation-section" aria-labelledby="reservation-schedule-title">
+
+                        <div class="reservation-section__heading">
+
+                            <div class="reservation-section__number">
+                                01
+                            </div>
+
+                            <div>
+                                <span class="section-kicker">TU VISITA</span>
+
+                                <h2 id="reservation-schedule-title">
+                                    Horario seleccionado
+                                </h2>
+
+                                <p>
+                                    Esta es la jornada que elegiste para tu visita.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="reservation-selected-schedule">
+
+                            <div class="reservation-selected-schedule__icon">
+                                <i class="ri-calendar-check-fill" aria-hidden="true"></i>
+                            </div>
+
+                            <div class="reservation-selected-schedule__info">
+
+                                <span>FECHA DE ATENCIÓN</span>
+
+                                <strong th:text="${horario.fecha}">
+                                    06/11/2026
+                                </strong>
+
+                                <div>
+                                    <i class="ri-time-line" aria-hidden="true"></i>
+
+                                    <span th:text="${horario.horaInicio + ' — ' + horario.horaFin}">
+                                        08:00 — 10:00
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <span class="reservation-selected-schedule__badge">
+                                <i class="ri-check-line" aria-hidden="true"></i>
+                                Seleccionado
+                            </span>
+
+                        </div>
+
+                    </section>
+
+                    <!-- PASO 2: MASCOTA -->
+                    <section class="reservation-section" aria-labelledby="reservation-pet-title">
+
+                        <div class="reservation-section__heading">
+
+                            <div class="reservation-section__number">
+                                02
+                            </div>
+
+                            <div>
+                                <span class="section-kicker">NUESTROS PEQUEÑOS INVITADOS</span>
+
+                                <h2 id="reservation-pet-title">
+                                    ¿A quién vamos a consentir?
+                                </h2>
+
+                                <p>
+                                    Selecciona una de las mascotas registradas en tu cuenta.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div th:if="${#lists.isEmpty(mascotas)}" class="reservation-empty">
+
+                            <i class="ri-paw-line" aria-hidden="true"></i>
+
+                            <h3>Aún no tienes mascotas registradas.</h3>
+
+                            <p>
+                                Primero registra a tu compañero para poder
+                                reservar una cita.
+                            </p>
+
+                            <a th:href="@{/cliente/mascotas/nueva}" class="reservation-inline-link">
+
+                                Registrar mi mascota
+                                <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+                            </a>
+
+                        </div>
+
+                        <div th:unless="${#lists.isEmpty(mascotas)}" class="row row-cols-1 row-cols-sm-2 g-3">
+
+                            <div class="col" th:each="mascota : ${mascotas}">
+
+                                <label class="reservation-pet-option" th:for="|mascota-${mascota.id}|">
+
+                                    <input type="radio" th:field="*{mascotaId}" th:id="|mascota-${mascota.id}|"
+                                        th:value="${mascota.id}" th:attr="
+        data-pet-name=${mascota.nombre},
+        data-pet-photo=@{/cliente/mascotas/{id}/foto(id=${mascota.id})},
+        data-pet-has-photo=${mascota.fotoNombre != null}
+    " required>
+                                    <span class="reservation-pet-option__visual">
+
+                                        <span class="reservation-pet-option__photo">
+
+                                            <img th:if="${mascota.fotoNombre != null}"
+                                                th:src="@{/cliente/mascotas/{id}/foto(id=${mascota.id})}"
+                                                th:alt="|Fotografía de ${mascota.nombre}|">
+
+                                            <span th:unless="${mascota.fotoNombre != null}">
+                                                <i class="ri-paw-print-fill" aria-hidden="true"></i>
+                                            </span>
+
+                                        </span>
+
+                                        <span class="reservation-pet-option__details">
+
+                                            <strong th:text="${mascota.nombre}">
+                                                Luna
+                                            </strong>
+
+                                            <small
+                                                th:text="${mascota.raza != null and !#strings.isEmpty(mascota.raza) ? mascota.raza : 'Mi compañero especial'}">
+                                                Mi compañero especial
+                                            </small>
+
+                                        </span>
+
+                                        <span class="reservation-pet-option__check">
+                                            <i class="ri-check-line" aria-hidden="true"></i>
+                                        </span>
+
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="reservation-field-error" th:if="${#fields.hasErrors('mascotaId')}"
+                            th:errors="*{mascotaId}">
+                        </div>
+
+                    </section>
+
+                    <!-- PASO 3: SERVICIOS -->
+                    <section class="reservation-section" aria-labelledby="reservation-services-title">
+
+                        <div class="reservation-section__heading">
+
+                            <div class="reservation-section__number">
+                                03
+                            </div>
+
+                            <div>
+                                <span class="section-kicker">UNA EXPERIENCIA A SU MEDIDA</span>
+
+                                <h2 id="reservation-services-title">
+                                    Elige sus servicios
+                                </h2>
+
+                                <p>
+                                    Puedes seleccionar uno o varios tratamientos
+                                    para tu mascota.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div th:if="${#lists.isEmpty(servicios)}" class="reservation-empty">
+
+                            <i class="ri-scissors-cut-line" aria-hidden="true"></i>
+
+                            <h3>No hay servicios disponibles.</h3>
+
+                            <p>
+                                En este momento no tenemos servicios habilitados
+                                para reservar.
+                            </p>
+
+                        </div>
+
+                        <div th:unless="${#lists.isEmpty(servicios)}" class="reservation-service-list">
+
+                            <label class="reservation-service-option" th:each="servicio : ${servicios}">
+
+                                <input type="checkbox" th:field="*{serviciosIds}" th:value="${servicio.id}"
+                                    class="js-reservation-service" th:attr="data-price=${servicio.precio},
+                                             data-duration=${servicio.duracionMinutos},
+                                             data-service-name=${servicio.nombre}">
+
+                                <span class="reservation-service-option__check">
+                                    <i class="ri-check-line" aria-hidden="true"></i>
+                                </span>
+
+                                <span class="reservation-service-option__content">
+
+                                    <strong th:text="${servicio.nombre}">
+                                        Baño completo
+                                    </strong>
+
+                                    <small th:text="${servicio.descripcion}">
+                                        Cuidado y limpieza para tu mascota.
+                                    </small>
+
+                                    <span class="reservation-service-option__duration">
+
+                                        <i class="ri-time-line" aria-hidden="true"></i>
+
+                                        <span th:text="${servicio.duracionMinutos + ' minutos'}">
+                                            60 minutos
+                                        </span>
+
+                                    </span>
+
+                                </span>
+
+                                <span class="reservation-service-option__price">
+
+                                    <small>PRECIO</small>
+
+                                    <strong
+                                        th:text="${'₡' + #numbers.formatDecimal(servicio.precio, 1, 'POINT', 2, 'COMMA')}">
+                                        ₡8.000,00
+                                    </strong>
+
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="reservation-field-error" th:if="${#fields.hasErrors('serviciosIds')}"
+                            th:errors="*{serviciosIds}">
+                        </div>
+
+                        <p class="reservation-service-hint" th:unless="${#lists.isEmpty(servicios)}">
+
+                            <i class="ri-information-line" aria-hidden="true"></i>
+
+                            Selecciona todos los servicios que deseas incluir
+                            en esta visita.
+
+                        </p>
+
+                    </section>
+
+                </div>
+
+                <!-- RESUMEN -->
+                <aside class="col-lg-4">
+
+                    <div class="reservation-summary">
+
+                        <div class="reservation-summary__header">
+
+                            <span class="section-kicker">
+                                TODO LISTO PARA ELLOS
+                            </span>
+
+                            <h2>Resumen de tu cita</h2>
+
+                            <p>
+                                Revisa los detalles antes de confirmar.
+                            </p>
+
+                        </div>
+
+                        <div class="reservation-summary__pet">
+
+                            <div class="reservation-summary__pet-icon" id="summary-pet-photo">
+
+                                <!-- Fotografía de la mascota -->
+                                <img id="summary-pet-image" src="" alt="" hidden>
+
+                                <!-- Icono cuando no tiene fotografía -->
+                                <i class="ri-paw-print-fill" id="summary-pet-fallback" aria-hidden="true">
+                                </i>
+
+                            </div>
+                            <div>
+                                <small>MASCOTA</small>
+                                <strong id="summary-pet">
+                                    Selecciona una mascota
+                                </strong>
+                            </div>
+
+                        </div>
+
+                        <div class="reservation-summary__details">
+
+                            <div>
+                                <span>Fecha</span>
+                                <strong th:text="${horario.fecha}">06/11/2026</strong>
+                            </div>
+
+                            <div>
+                                <span>Horario</span>
+                                <strong th:text="${horario.horaInicio + ' - ' + horario.horaFin}">
+                                    08:00 - 10:00
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>Servicios elegidos</span>
+                                <strong id="summary-service-count">0</strong>
+                            </div>
+
+                            <div>
+                                <span>Duración total</span>
+                                <strong id="summary-duration">0 min</strong>
+                            </div>
+
+                        </div>
+
+                        <div class="reservation-summary__selected">
+
+                            <span class="section-kicker">
+                                DETALLE DE SERVICIOS
+                            </span>
+
+                            <ul id="summary-services">
+                                <li class="reservation-summary__empty-service">
+                                    Aún no has seleccionado servicios.
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <div class="reservation-summary__total">
+
+                            <span>Total estimado</span>
+
+                            <strong id="summary-total">
+                                ₡0,00
+                            </strong>
+
+                            <small>
+                                El precio se confirma al registrar la cita.
+                            </small>
+
+                        </div>
+
+                        <div class="reservation-summary__feedback" id="reservation-feedback" role="status"
+                            aria-live="polite">
+
+                            Selecciona una mascota y al menos un servicio
+                            para continuar.
+
+                        </div>
+
+                        <button type="submit" class="reservation-submit"
+                            th:disabled="${#lists.isEmpty(mascotas) or #lists.isEmpty(servicios)}">
+
+                            <span>Confirmar mi reserva</span>
+
+                            <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+                        </button>
+
+                        <p class="reservation-summary__security">
+
+                            <i class="ri-shield-check-line" aria-hidden="true"></i>
+
+                            Tu reserva será registrada de forma segura.
+
+                        </p>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </form>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="reservation-footer">
+
+        <div class="container">
+
+            <p>
+                © 2026 Mimi y Zizi.
+                Cuidamos a quienes hacen más felices tus días.
+            </p>
+
+        </div>
+
+    </footer>
+
+    <script th:src="@{/assets/js/reservas.js}" defer></script>
+
+</body>
+
+</html>

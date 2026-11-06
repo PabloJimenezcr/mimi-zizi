@@ -1,0 +1,47 @@
+<div th:fragment="siteLoader" id="siteLoader" class="site-loader" role="status" aria-live="polite" aria-atomic="true"
+    aria-label="Preparando Mimi y Zizi">
+
+    <div class="site-loader__background" aria-hidden="true"></div>
+
+    <div class="site-loader__orbit site-loader__orbit--one" aria-hidden="true"></div>
+
+    <div class="site-loader__orbit site-loader__orbit--two" aria-hidden="true"></div>
+
+    <div class="site-loader__bubble site-loader__bubble--one" aria-hidden="true"></div>
+
+    <div class="site-loader__bubble site-loader__bubble--two" aria-hidden="true"></div>
+
+    <div class="site-loader__bubble site-loader__bubble--three" aria-hidden="true"></div>
+
+    <div class="site-loader__center">
+
+        <span class="site-loader__spark site-loader__spark--one" aria-hidden="true">✦</span>
+
+        <span class="site-loader__spark site-loader__spark--two" aria-hidden="true">✧</span>
+
+        <span class="site-loader__spark site-loader__spark--three" aria-hidden="true">✦</span>
+
+        <img th:src="@{/assets/img/logo-mimi-zizi.png}" alt="" class="site-loader__logo">
+
+    </div>
+
+    <div class="site-loader__scissors" aria-hidden="true">
+        <i class="ri-scissors-2-line"></i>
+    </div>
+
+    <div class="site-loader__bottom">
+
+        <div class="site-loader__label">
+            <span>PREPARANDO EL GROOMING</span>
+            <i class="ri-heart-fill" aria-hidden="true"></i>
+        </div>
+
+        <div class="site-loader__progress" aria-hidden="true">
+            <span></span>
+        </div>
+
+        <p>Preparando una experiencia especial para ellos...</p>
+
+    </div>
+
+</div>

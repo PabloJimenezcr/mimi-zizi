@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#071b29">
+
+    <title>Servicios | Mimi y Zizi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
+
+    <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body class="admin-body">
+
+    <a href="#main-content" class="admin-skip-link">
+        Saltar al contenido principal
+    </a>
+
+    <div class="admin-shell">
+
+        <div th:replace="~{fragments/admin-sidebar :: sidebar}"></div>
+
+        <button type="button" class="admin-sidebar-backdrop" data-admin-menu-close
+            aria-label="Cerrar menú de navegación">
+        </button>
+
+        <main class="admin-main" id="main-content" tabindex="-1">
+
+            <!-- HEADER -->
+            <header class="admin-topbar">
+
+                <div class="admin-topbar__left">
+
+                    <button class="admin-menu-toggle" type="button" data-admin-menu-toggle aria-controls="adminSidebar"
+                        aria-expanded="false" aria-label="Abrir menú de navegación">
+
+                        <i class="ri-menu-2-line" aria-hidden="true"></i>
+
+                    </button>
+
+                    <nav class="admin-breadcrumb" aria-label="Ubicación">
+                        <span>Administración</span>
+                        <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+                        <strong>Servicios</strong>
+                    </nav>
+
+                </div>
+
+                <div class="admin-topbar__identity">
+                    <i class="ri-shield-user-line" aria-hidden="true"></i>
+                    <span>Administrador</span>
+                </div>
+
+            </header>
+
+            <!-- ENCABEZADO -->
+            <section class="admin-page-heading admin-services-heading">
+
+                <div>
+                    <span class="section-kicker">CATÁLOGO DEL NEGOCIO</span>
+
+                    <h1>Servicios</h1>
+
+                    <p>
+                        Administra los tratamientos, precios y duración
+                        de los servicios que ofrece Mimi y Zizi.
+                    </p>
+                </div>
+
+                <a th:href="@{/admin/servicios/nuevo}" class="admin-services-primary">
+
+                    <i class="ri-add-line" aria-hidden="true"></i>
+                    Nuevo servicio
+
+                </a>
+
+            </section>
+
+            <!-- MENSAJES -->
+            <div th:if="${mensajeExito}" class="alert alert-success admin-services-alert" role="status">
+
+                <i class="ri-checkbox-circle-line" aria-hidden="true"></i>
+
+                <span th:text="${mensajeExito}"></span>
+
+            </div>
+
+            <div th:if="${mensajeError}" class="alert alert-danger admin-services-alert" role="alert">
+
+                <i class="ri-error-warning-line" aria-hidden="true"></i>
+
+                <span th:text="${mensajeError}"></span>
+
+            </div>
+
+            <!-- INDICADORES -->
+            <section class="admin-services-stats" aria-label="Resumen de servicios">
+
+                <article class="admin-service-stat">
+
+                    <div class="admin-service-stat__icon is-total">
+                        <i class="ri-scissors-cut-line" aria-hidden="true"></i>
+                    </div>
+
+                    <div>
+                        <span>Total de servicios</span>
+                        <strong th:text="${totalServicios}">0</strong>
+                        <small>Registrados en el catálogo</small>
+                    </div>
+
+                </article>
+
+                <article class="admin-service-stat">
+
+                    <div class="admin-service-stat__icon is-active">
+                        <i class="ri-checkbox-circle-line" aria-hidden="true"></i>
+                    </div>
+
+                    <div>
+                        <span>Servicios activos</span>
+                        <strong th:text="${serviciosActivos}">0</strong>
+                        <small>Disponibles para clientes</small>
+                    </div>
+
+                </article>
+
+                <article class="admin-service-stat">
+
+                    <div class="admin-service-stat__icon is-inactive">
+                        <i class="ri-pause-circle-line" aria-hidden="true"></i>
+                    </div>
+
+                    <div>
+                        <span>Servicios inactivos</span>
+                        <strong th:text="${serviciosInactivos}">0</strong>
+                        <small>No disponibles para reservar</small>
+                    </div>
+
+                </article>
+
+            </section>
+
+            <!-- LISTADO -->
+            <section class="admin-services-content" aria-labelledby="services-list-title">
+
+                <div class="admin-services-toolbar">
+
+                    <div>
+                        <h2 id="services-list-title">
+                            Catálogo de servicios
+                        </h2>
+
+                        <p>
+                            Consulta y administra los servicios registrados.
+                        </p>
+                    </div>
+
+                    <form th:action="@{/admin/servicios}" method="get" class="admin-services-filters" role="search">
+
+                        <label for="serviceSearch" class="visually-hidden">
+                            Buscar servicio
+                        </label>
+
+                        <div class="admin-services-search">
+
+                            <i class="ri-search-line" aria-hidden="true"></i>
+
+                            <input type="search" id="serviceSearch" name="q" th:value="${busqueda}"
+                                placeholder="Buscar servicio..." maxlength="100">
+
+                        </div>
+
+                        <label for="serviceStatus" class="visually-hidden">
+                            Filtrar por estado
+                        </label>
+
+                        <select id="serviceStatus" name="estado" class="admin-services-select">
+
+                            <option value="todos" th:selected="${estado == 'todos'}">
+                                Todos los estados
+                            </option>
+
+                            <option value="activos" th:selected="${estado == 'activos'}">
+                                Activos
+                            </option>
+
+                            <option value="inactivos" th:selected="${estado == 'inactivos'}">
+                                Inactivos
+                            </option>
+
+                        </select>
+
+                        <button type="submit" class="admin-services-filter-button">
+
+                            <i class="ri-filter-3-line" aria-hidden="true"></i>
+                            Filtrar
+
+                        </button>
+
+                        <a th:if="${!#strings.isEmpty(busqueda) or estado != 'todos'}" th:href="@{/admin/servicios}"
+                            class="admin-services-clear">
+
+                            Limpiar
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+                <!-- TABLA -->
+                <div class="admin-services-table-card">
+
+                    <div class="admin-services-table-header">
+
+                        <div>
+                            <h3>Listado general</h3>
+
+                            <p>
+                                Mostrando
+                                <strong th:text="${desde}">0</strong>
+                                -
+                                <strong th:text="${hasta}">0</strong>
+                                de
+                                <strong th:text="${totalServicios}">0</strong>
+                                servicios registrados
+                            </p>
+                        </div>
+
+                        <span class="admin-services-table-label">
+                            <i class="ri-list-check-2" aria-hidden="true"></i>
+                            Servicios
+                        </span>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table admin-services-table align-middle mb-0">
+
+                            <caption class="visually-hidden">
+                                Catálogo administrativo con nombre,
+                                descripción, precio, duración y estado.
+                            </caption>
+
+                            <thead>
+                                <tr>
+                                    <th scope="col">Servicio</th>
+                                    <th scope="col">Precio</th>
+                                    <th scope="col">Duración</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Registro</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr th:each="servicio : ${servicios}">
+
+                                    <td>
+                                        <div class="admin-service-name">
+
+                                            <div class="admin-service-name__icon" aria-hidden="true">
+                                                <i class="ri-scissors-line"></i>
+                                            </div>
+
+                                            <div>
+                                                <strong th:text="${servicio.nombre}">
+                                                    Nombre del servicio
+                                                </strong>
+
+                                                <span th:text="${servicio.descripcion}">
+                                                    Descripción del servicio
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <strong class="admin-service-price"
+                                            th:text="${'₡' + #numbers.formatDecimal(servicio.precio, 1, 'POINT', 2, 'COMMA')}">
+                                            ₡0,00
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        <span class="admin-service-duration">
+
+                                            <i class="ri-time-line" aria-hidden="true"></i>
+
+                                            <span th:text="${servicio.duracionMinutos + ' min'}">
+                                                60 min
+                                            </span>
+
+                                        </span>
+                                    </td>
+
+                                    <td>
+
+                                        <span class="admin-service-status"
+                                            th:classappend="${servicio.activo} ? ' is-active' : ' is-inactive'">
+
+                                            <span class="admin-service-status__dot"></span>
+
+                                            <span th:text="${servicio.activo ? 'Activo' : 'Inactivo'}">
+                                                Activo
+                                            </span>
+
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+                                        <span class="admin-service-date" th:text="${servicio.fechaRegistro}">
+                                            05/11/2026
+                                        </span>
+                                    </td>
+
+                                    <td>
+
+                                        <div class="admin-service-actions">
+
+                                            <a th:href="@{/admin/servicios/{id}/editar(id=${servicio.id})}"
+                                                class="admin-service-action is-edit"
+                                                th:attr="aria-label=${'Editar ' + servicio.nombre}"
+                                                title="Editar servicio">
+
+                                                <i class="ri-edit-line" aria-hidden="true"></i>
+
+                                            </a>
+
+                                            <form th:action="@{/admin/servicios/{id}/estado(id=${servicio.id})}"
+                                                method="post" class="service-state-form"
+                                                th:attr="data-service-name=${servicio.nombre},
+                                                           data-action-label=${servicio.activo ? 'desactivar' : 'activar'}">
+
+                                                <input type="hidden" th:name="${_csrf.parameterName}"
+                                                    th:value="${_csrf.token}">
+
+                                                <input type="hidden" name="activo" th:value="${!servicio.activo}">
+
+                                                <button type="submit" class="admin-service-action"
+                                                    th:classappend="${servicio.activo} ? ' is-disable' : ' is-enable'"
+                                                    th:attr="aria-label=${servicio.activo ? 'Desactivar ' + servicio.nombre : 'Activar ' + servicio.nombre}"
+                                                    th:title="${servicio.activo ? 'Desactivar servicio' : 'Activar servicio'}">
+
+                                                    <i th:class="${servicio.activo} ? 'ri-pause-circle-line' : 'ri-play-circle-line'"
+                                                        aria-hidden="true"></i>
+
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr th:if="${#lists.isEmpty(servicios)}">
+
+                                    <td colspan="6">
+
+                                        <div class="admin-services-empty">
+
+                                            <div class="admin-services-empty__icon" aria-hidden="true">
+
+                                                <i class="ri-scissors-cut-line"></i>
+
+                                            </div>
+
+                                            <h3>No encontramos servicios</h3>
+
+                                            <p>
+                                                No hay servicios que coincidan
+                                                con los filtros seleccionados.
+                                            </p>
+
+                                            <a th:href="@{/admin/servicios/nuevo}" class="admin-services-primary">
+
+                                                <i class="ri-add-line" aria-hidden="true"></i>
+
+                                                Crear primer servicio
+
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <!-- PAGINACIÓN -->
+                    <nav th:if="${totalPaginas > 1}" class="admin-services-pagination"
+                        aria-label="Paginación de servicios">
+
+                        <a th:if="${hayAnterior}"
+                            th:href="@{/admin/servicios(q=${busqueda},estado=${estado},page=${paginaActual - 1})}"
+                            class="admin-services-page" aria-label="Página anterior">
+
+                            <i class="ri-arrow-left-s-line" aria-hidden="true"></i>
+
+                        </a>
+
+                        <a th:each="numero : ${#numbers.sequence(0, totalPaginas - 1)}"
+                            th:href="@{/admin/servicios(q=${busqueda},estado=${estado},page=${numero})}"
+                            th:text="${numero + 1}" class="admin-services-page"
+                            th:classappend="${numero == paginaActual} ? ' is-current' : ''"
+                            th:attr="aria-current=${numero == paginaActual} ? 'page' : null">
+                            1
+                        </a>
+
+                        <a th:if="${haySiguiente}"
+                            th:href="@{/admin/servicios(q=${busqueda},estado=${estado},page=${paginaActual + 1})}"
+                            class="admin-services-page" aria-label="Página siguiente">
+
+                            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+
+                        </a>
+
+                    </nav>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+
+    <script th:src="@{/assets/js/admin.js}" defer></script>
+
+    <script th:src="@{/assets/js/servicios-admin.js}" defer></script>
+
+</body>
+
+</html>

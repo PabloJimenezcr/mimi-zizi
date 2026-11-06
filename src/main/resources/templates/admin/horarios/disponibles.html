@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#071b29">
+
+    <title>Horarios disponibles | Mimi y Zizi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
+
+    <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body class="client-schedules-page">
+
+    <a href="#main-content" class="client-schedules-skip">
+        Saltar al contenido principal
+    </a>
+
+    <!-- HEADER -->
+    <header class="client-schedules-header">
+
+        <div class="container">
+
+            <nav class="client-schedules-nav" aria-label="Navegación principal">
+
+                <a th:href="@{/cliente/inicio}" class="client-schedules-brand"
+                    aria-label="Mimi y Zizi, regresar a mi cuenta">
+
+                    <img th:src="@{/assets/img/logo-mimi-zizi.png}" alt="Mimi y Zizi">
+
+                </a>
+
+                <div class="client-schedules-nav__actions">
+
+                    <a th:href="@{/cliente/inicio}" class="client-schedules-back">
+
+                        <i class="ri-arrow-left-line" aria-hidden="true"></i>
+                        <span>Mi cuenta</span>
+
+                    </a>
+
+                    <form th:action="@{/logout}" method="post">
+
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                        <button type="submit" class="client-schedules-logout">
+
+                            <i class="ri-logout-box-r-line" aria-hidden="true"></i>
+
+                            <span>Cerrar sesión</span>
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+    <main class="container client-schedules-main" id="main-content" tabindex="-1">
+
+        <nav class="client-schedules-breadcrumb" aria-label="Ubicación">
+
+            <a th:href="@{/cliente/inicio}">Mi cuenta</a>
+
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+
+            <span aria-current="page">Horarios disponibles</span>
+
+        </nav>
+
+        <!-- HERO -->
+        <section class="client-schedules-hero">
+
+            <div class="client-schedules-hero__content">
+
+                <span class="section-kicker">
+                    PLANEA SU PRÓXIMA VISITA
+                </span>
+
+                <h1>
+                    Encuentra el momento
+                    <span>perfecto.</span>
+                </h1>
+
+                <p>
+                    Consulta los próximos horarios de atención
+                    y conoce los bloques habilitados para nuestros servicios.
+                </p>
+
+            </div>
+
+            <div class="client-schedules-hero__decoration" aria-hidden="true">
+
+          <i class="ri-calendar-event-fill"></i>
+
+                <span>
+                    <i class="ri-paw-print-fill"></i>
+                </span>
+
+            </div>
+
+        </section>
+
+        <!-- ENCABEZADO DE AGENDA -->
+        <section class="client-schedules-catalog" aria-labelledby="available-schedules-title">
+
+            <div class="client-schedules-catalog__heading">
+
+                <div>
+
+                    <span class="section-kicker">AGENDA DE ATENCIÓN</span>
+
+                    <h2 id="available-schedules-title">
+                        Próximos horarios
+                    </h2>
+
+                    <p>
+                        Estos son los bloques de atención habilitados.
+                    </p>
+
+                </div>
+
+                <span class="client-schedules-count" th:text="${#lists.size(horarios) + ' horarios disponibles'}">
+                    0 horarios disponibles
+                </span>
+
+            </div>
+
+            <!-- ESTADO VACÍO -->
+            <div th:if="${#lists.isEmpty(horarios)}" class="client-schedules-empty">
+
+                <div class="client-schedules-empty__icon" aria-hidden="true">
+
+                    <i class="ri-calendar-close-line"></i>
+
+                </div>
+
+                <span class="section-kicker">
+                    PRÓXIMAMENTE
+                </span>
+
+                <h3>No hay horarios habilitados por el momento.</h3>
+
+                <p>
+                    Estamos organizando nuestra agenda.
+                    Vuelve a consultarla pronto.
+                </p>
+
+                <a th:href="@{/cliente/inicio}" class="client-schedules-button">
+
+                    <i class="ri-arrow-left-line" aria-hidden="true"></i>
+                    Regresar a mi cuenta
+
+                </a>
+
+            </div>
+
+            <!-- LISTADO -->
+            <div th:unless="${#lists.isEmpty(horarios)}" class="client-schedules-grid">
+
+                <article class="client-schedule-card" th:each="horario : ${horarios}">
+
+                    <div class="client-schedule-card__date">
+
+                        <div class="client-schedule-card__date-icon">
+                            <i class="ri-calendar-event-line" aria-hidden="true"></i>
+                        </div>
+
+                        <div>
+
+                            <span>FECHA DE ATENCIÓN</span>
+
+                            <strong th:text="${horario.fecha}">
+                                05/11/2026
+                            </strong>
+
+                        </div>
+
+                        <span class="client-schedule-card__status">
+                            <span></span>
+                            Habilitado
+                        </span>
+
+                    </div>
+
+                    <div class="client-schedule-card__time">
+
+                        <div>
+
+                            <span>HORA DE INICIO</span>
+
+                            <strong th:text="${horario.horaInicio}">
+                                08:00
+                            </strong>
+
+                        </div>
+
+                        <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+                        <div>
+
+                            <span>HORA DE FINALIZACIÓN</span>
+
+                            <strong th:text="${horario.horaFin}">
+                                09:00
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="client-schedule-card__footer">
+
+                        <div>
+
+                            <i class="ri-group-line" aria-hidden="true"></i>
+
+                            <span>
+                                Capacidad total:
+                                <strong th:text="${horario.capacidad}">
+                                    3
+                                </strong>
+                                mascotas
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+        <!-- NOTA -->
+        <section class="client-schedules-note">
+
+            <i class="ri-information-line" aria-hidden="true"></i>
+
+            <p>
+                Los horarios mostrados corresponden a bloques habilitados.
+                La disponibilidad de espacios para reservar se confirmará
+                cuando realices tu reservación.
+            </p>
+
+        </section>
+
+    </main>
+
+    <footer class="client-schedules-footer">
+
+        <div class="container">
+
+            <p>
+                © 2026 Mimi y Zizi.
+                Cuidamos a quienes hacen más felices tus días.
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

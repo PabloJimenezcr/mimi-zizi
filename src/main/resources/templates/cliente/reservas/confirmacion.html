@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#071b29">
+
+    <title>Reserva registrada | Mimi y Zizi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body class="client-reservation-page">
+
+    <header class="reservation-header">
+        <div class="container">
+
+            <nav class="reservation-nav" aria-label="Navegación principal">
+
+                <a th:href="@{/cliente/inicio}" class="reservation-brand">
+                    <img th:src="@{/assets/img/logo-mimi-zizi.png}" alt="Mimi y Zizi">
+                </a>
+
+                <a th:href="@{/cliente/inicio}" class="reservation-back">
+                    <i class="ri-arrow-left-line" aria-hidden="true"></i>
+                    <span>Mi cuenta</span>
+                </a>
+
+            </nav>
+
+        </div>
+    </header>
+
+    <main class="container reservation-confirmation-main">
+
+        <section class="reservation-confirmation">
+
+            <div class="reservation-confirmation__icon">
+                <i class="ri-check-line" aria-hidden="true"></i>
+            </div>
+
+            <span class="section-kicker">
+                ¡UN MOMENTO ESPECIAL SE ACERCA!
+            </span>
+
+            <h1>
+                ¡Tu cita está
+                <span>registrada!</span>
+            </h1>
+
+            <p class="reservation-confirmation__intro">
+                Gracias por confiar en Mimi y Zizi.
+                Hemos registrado tu solicitud y nuestro equipo podrá
+                darle seguimiento.
+            </p>
+
+            <div class="reservation-confirmation__ticket">
+
+                <div class="reservation-confirmation__ticket-heading">
+
+                    <div>
+                        <small>NÚMERO DE RESERVA</small>
+                        <strong th:text="|#${cita.id}|">#0001</strong>
+                    </div>
+
+                    <span class="reservation-confirmation__status">
+                        PENDIENTE
+                    </span>
+
+                </div>
+
+                <div class="reservation-confirmation__ticket-details">
+
+                    <div>
+                        <span>Fecha de atención</span>
+                        <strong th:text="${#temporals.format(cita.fechaCita, 'dd/MM/yyyy')}">
+                            06/11/2026
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Horario</span>
+                        <strong
+                            th:text="${#temporals.format(cita.horaInicio, 'HH:mm') + ' — ' + #temporals.format(cita.horaFin, 'HH:mm')}">
+                            08:00 — 10:00
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Mascota</span>
+                        <strong th:text="${cita.mascota.nombre}">
+                            Luna
+                        </strong>
+                    </div>
+
+                    <div>
+                        <span>Estado de la cita</span>
+                        <strong>En espera de gestión</strong>
+                    </div>
+
+                </div>
+
+                <div class="reservation-confirmation__ticket-note">
+
+                    <i class="ri-information-line" aria-hidden="true"></i>
+
+                    <p>
+                        Tu reserva quedó registrada con estado pendiente.
+                        El equipo de Mimi y Zizi podrá actualizar su estado.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="reservation-confirmation__actions">
+
+                <a th:href="@{/cliente/inicio}" class="reservation-confirmation__primary">
+
+                    Ir a mi cuenta
+                    <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+                </a>
+
+                <a th:href="@{/cliente/horarios}" class="reservation-confirmation__secondary">
+
+                    Consultar otros horarios
+
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="reservation-footer">
+        <div class="container">
+            <p>
+                © 2026 Mimi y Zizi.
+                Cuidamos a quienes hacen más felices tus días.
+            </p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

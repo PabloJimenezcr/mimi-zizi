@@ -1,0 +1,110 @@
+<aside th:fragment="sidebar" class="admin-sidebar" id="adminSidebar" aria-label="Menú de administración">
+
+    <div class="admin-sidebar__brand">
+        <a th:href="@{/admin/inicio}" aria-label="Mimi y Zizi, inicio administrativo">
+            <img th:src="@{/assets/img/logo-mimi-zizi.png}" alt="Mimi y Zizi">
+        </a>
+
+        <button class="admin-sidebar__close" type="button" data-admin-menu-close aria-label="Cerrar menú">
+            <i class="ri-close-line" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    <nav class="admin-nav" aria-label="Navegación principal">
+
+        <div class="admin-nav__group">
+            <span class="admin-nav__label">General</span>
+
+            <a th:href="@{/admin/inicio}" class="admin-nav__link"
+                th:classappend="${paginaAdmin == 'inicio'} ? ' is-active' : ''"
+                th:attr="aria-current=${paginaAdmin == 'inicio'} ? 'page' : null" data-admin-menu-first>
+
+                <i class="ri-home-5-line"></i>
+                <span>Inicio</span>
+            </a>
+        </div>
+
+        <div class="admin-nav__group">
+            <span class="admin-nav__label">Gestión</span>
+
+            <a th:href="@{/admin/usuarios}" class="admin-nav__link"
+                th:classappend="${paginaAdmin == 'usuarios'} ? ' is-active' : ''"
+                th:attr="aria-current=${paginaAdmin == 'usuarios'} ? 'page' : null">
+
+                <i class="ri-user-settings-line" aria-hidden="true"></i>
+                <span>Usuarios</span>
+
+            </a>
+
+            <span class="admin-nav__link is-disabled" aria-disabled="true">
+                <i class="ri-baidu-line" aria-hidden="true"></i>
+                <span>Mascotas</span>
+                <span class="admin-nav__status">Pronto</span>
+            </span>
+        </div>
+
+        <div class="admin-nav__group">
+            <span class="admin-nav__label">Operaciones</span>
+
+            <a th:href="@{/admin/servicios}" class="admin-nav__link"
+                th:classappend="${paginaAdmin == 'servicios'} ? ' is-active' : ''"
+                th:attr="aria-current=${paginaAdmin == 'servicios'} ? 'page' : null">
+
+                <i class="ri-scissors-cut-line" aria-hidden="true"></i>
+                <span>Servicios</span>
+
+            </a>
+
+            <a th:href="@{/admin/horarios}" class="admin-nav__link"
+                th:classappend="${paginaAdmin == 'horarios'} ? ' is-active' : ''"
+                th:attr="aria-current=${paginaAdmin == 'horarios'} ? 'page' : null">
+
+                <i class="ri-calendar-schedule-line" aria-hidden="true"></i>
+                <span>Horarios</span>
+
+            </a>
+
+            <span class="admin-nav__link is-disabled" aria-disabled="true">
+                <i class="ri-calendar-check-line" aria-hidden="true"></i>
+                <span>Citas</span>
+                <span class="admin-nav__status">Pronto</span>
+            </span>
+        </div>
+
+        <div class="admin-nav__group">
+            <span class="admin-nav__label">Fidelización</span>
+
+            <span class="admin-nav__link is-disabled" aria-disabled="true">
+                <i class="ri-medal-line" aria-hidden="true"></i>
+                <span>Puntos</span>
+                <span class="admin-nav__status">Pronto</span>
+            </span>
+        </div>
+
+    </nav>
+
+    <div class="admin-sidebar__footer">
+
+        <div class="admin-user">
+            <div class="admin-user__avatar" aria-hidden="true">
+                <i class="ri-user-3-line"></i>
+            </div>
+
+            <div class="admin-user__details">
+                <strong th:text="${nombreAdministrador}">Administrador</strong>
+                <small>Administrador</small>
+            </div>
+        </div>
+
+        <form th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+            <button class="admin-logout" type="submit">
+                <i class="ri-logout-box-r-line" aria-hidden="true"></i>
+                <span>Cerrar sesión</span>
+            </button>
+        </form>
+
+    </div>
+
+</aside>

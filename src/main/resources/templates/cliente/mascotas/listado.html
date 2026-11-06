@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#071b29">
+
+    <title>Mis mascotas | Mimi y Zizi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
+
+    <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body class="client-pets-page">
+
+    <a href="#main-content" class="client-pets-skip">
+        Saltar al contenido principal
+    </a>
+
+    <header class="client-pets-header">
+        <div class="container">
+
+            <nav class="client-pets-nav" aria-label="Navegación principal">
+
+                <a th:href="@{/cliente/inicio}" class="client-pets-brand" aria-label="Mimi y Zizi, regresar al panel">
+
+                    <img th:src="@{/assets/img/logo-mimi-zizi.png}" alt="Mimi y Zizi">
+
+                </a>
+
+                <div class="client-pets-nav__actions">
+
+                    <a th:href="@{/cliente/inicio}" class="client-pets-back">
+
+                        <i class="ri-arrow-left-line" aria-hidden="true"></i>
+                        <span>Mi cuenta</span>
+
+                    </a>
+
+                    <form th:action="@{/logout}" method="post">
+
+                        <button type="submit" class="client-pets-logout">
+                            <i class="ri-logout-box-r-line" aria-hidden="true"></i>
+                            <span>Cerrar sesión</span>
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </nav>
+
+        </div>
+    </header>
+
+    <main class="container client-pets-main" id="main-content" tabindex="-1">
+
+        <div class="client-pets-breadcrumb">
+            <a th:href="@{/cliente/inicio}">Mi cuenta</a>
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+            <span aria-current="page">Mis mascotas</span>
+        </div>
+
+        <section class="client-pets-heading" aria-labelledby="pets-title">
+
+            <div class="client-pets-heading__content">
+
+                <span class="section-kicker">
+                    SUS COMPAÑEROS DE AVENTURAS
+                </span>
+
+                <h1 id="pets-title">
+                    Mis <span>mascotas</span>
+                    <i class="ri-heart-fill" aria-hidden="true"></i>
+                </h1>
+
+                <p>
+                    Aquí puedes administrar los perfiles de tus peluditos.
+                    Mantén su información actualizada para brindarles
+                    la mejor experiencia en cada visita.
+                </p>
+
+            </div>
+
+            <a th:href="@{/cliente/mascotas/nueva}" class="client-pets-primary-button">
+
+                <i class="ri-add-line" aria-hidden="true"></i>
+                Registrar mascota
+
+            </a>
+
+        </section>
+
+        <!-- Mensaje de confirmación -->
+        <div th:if="${mensajeExito}" class="alert alert-success client-pets-alert" role="status">
+
+            <i class="ri-checkbox-circle-line" aria-hidden="true"></i>
+
+            <span th:text="${mensajeExito}">
+                Operación realizada correctamente.
+            </span>
+
+        </div>
+
+        <!-- Resumen -->
+        <section class="client-pets-summary" aria-label="Resumen de mascotas registradas">
+
+            <div class="client-pets-summary__icon" aria-hidden="true">
+                <i class="ri-paw-print-fill"></i>
+            </div>
+
+            <div>
+                <span>MASCOTAS REGISTRADAS</span>
+                <strong th:text="${totalMascotas}">0</strong>
+            </div>
+
+        </section>
+
+        <!-- Mascotas registradas -->
+        <section class="client-pets-list" aria-label="Mis mascotas registradas">
+
+            <div class="client-pets-list__heading">
+
+                <div>
+                    <h2>Todos mis peluditos</h2>
+                    <p>Información de tus compañeros de cuatro patas.</p>
+                </div>
+
+                <span class="client-pets-count" th:text="${totalMascotas + ' registradas'}">
+                    0 registradas
+                </span>
+
+            </div>
+
+            <!-- Estado vacío -->
+            <div th:if="${#lists.isEmpty(mascotas)}" class="client-pets-empty">
+
+                <div class="client-pets-empty__illustration" aria-hidden="true">
+
+                    <i class="ri-baidu-line"></i>
+
+                    <span>
+                        <i class="ri-heart-fill"></i>
+                    </span>
+
+                </div>
+
+                <span class="section-kicker">UN NUEVO COMIENZO</span>
+
+                <h3>¡Todavía no tienes mascotas registradas!</h3>
+
+                <p>
+                    Registra a tu primer compañero para guardar
+                    su información y gestionar sus futuras visitas.
+                </p>
+
+                <a th:href="@{/cliente/mascotas/nueva}" class="client-pets-primary-button">
+
+                    <i class="ri-add-line" aria-hidden="true"></i>
+                    Registrar mi primera mascota
+
+                </a>
+
+            </div>
+
+            <!-- Tarjetas -->
+            <div th:unless="${#lists.isEmpty(mascotas)}" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+
+                <div class="col" th:each="mascota : ${mascotas}">
+
+                    <article class="client-pet-card h-100">
+
+                        <div class="client-pet-card__cover">
+
+                            <!-- Fotografía de la mascota -->
+                            <img th:if="${mascota.tieneFoto}" th:src="@{/cliente/mascotas/{id}/foto(id=${mascota.id})}"
+                                th:alt="|Fotografía de ${mascota.nombre}|" class="client-pet-card__photo">
+
+                            <!-- Imagen de respaldo -->
+                            <div th:unless="${mascota.tieneFoto}" class="client-pet-card__paw" aria-hidden="true">
+
+                                <i class="ri-paw-print-fill"></i>
+
+                            </div>
+
+                            <span class="client-pet-card__size" th:text="${mascota.tamano}">
+                                Mediano
+                            </span>
+
+                        </div>
+
+                        <div class="client-pet-card__body">
+
+                            <span class="client-pet-card__eyebrow">
+                                MI MASCOTA
+                            </span>
+
+                            <h3 th:text="${mascota.nombre}">
+                                Nombre de mascota
+                            </h3>
+
+                            <div class="client-pet-card__breed">
+
+                                <i class="ri-ribbon-line" aria-hidden="true"></i>
+
+                                <span
+                                    th:text="${#strings.isEmpty(mascota.raza) ? 'Raza no especificada' : mascota.raza}">
+                                    Raza
+                                </span>
+
+                            </div>
+
+                            <div class="client-pet-card__divider"></div>
+
+                            <div class="client-pet-card__detail">
+
+                                <i class="ri-calendar-line" aria-hidden="true"></i>
+
+                                <span>
+                                    Registrado el
+                                    <strong th:text="${mascota.fechaRegistro}">
+                                        04/11/2026
+                                    </strong>
+                                </span>
+
+                            </div>
+
+                            <div class="client-pet-card__observations"
+                                th:if="${!#strings.isEmpty(mascota.observaciones)}">
+
+                                <span>OBSERVACIONES ESPECIALES</span>
+
+                                <p th:text="${mascota.observaciones}">
+                                    Observaciones de la mascota.
+                                </p>
+
+                            </div>
+
+                            <div class="client-pet-card__actions">
+
+                                <a th:href="@{/cliente/mascotas/{id}/editar(id=${mascota.id})}"
+                                    class="client-pet-card__edit">
+
+                                    <i class="ri-edit-line" aria-hidden="true"></i>
+
+                                    Editar perfil
+
+                                    <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="client-pets-bottom">
+
+            <i class="ri-heart-3-line" aria-hidden="true"></i>
+
+            <p>
+                En Mimi y Zizi cada peludito es especial.
+                ¡Gracias por confiar en nosotros!
+            </p>
+
+        </section>
+
+    </main>
+
+    <footer class="client-pets-footer">
+        <div class="container">
+            <p>
+                © 2026 Mimi y Zizi.
+                Cuidamos a quienes hacen más felices tus días.
+            </p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

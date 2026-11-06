@@ -1,0 +1,854 @@
+/* =========================================================
+   CLIENTE - DASHBOARD
+   Mimi y Zizi Grooming
+========================================================= */
+
+.client-dashboard-page {
+    --dash-ink: #071b29;
+    --dash-pink: #ff4f8b;
+    --dash-cyan: #8fe7e8;
+    --dash-muted: #6c7b84;
+    --dash-line: rgba(7, 27, 41, .1);
+
+    min-height: 100vh;
+    color: var(--dash-ink);
+    background: #f8fafb;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.client-dashboard-page *,
+.client-dashboard-page *::before,
+.client-dashboard-page *::after {
+    box-sizing: border-box;
+}
+
+.client-dashboard-page a {
+    text-decoration: none;
+}
+
+.client-dashboard-page a:focus-visible,
+.client-dashboard-page button:focus-visible {
+    outline: 3px solid var(--dash-cyan);
+    outline-offset: 4px;
+}
+
+/* ACCESIBILIDAD */
+
+.dashboard-skip {
+    position: fixed;
+    top: -100px;
+    left: 1rem;
+    z-index: 1200;
+    padding: .8rem 1rem;
+    color: white;
+    background: var(--dash-ink);
+    border-radius: 12px;
+}
+
+.dashboard-skip:focus {
+    top: 1rem;
+}
+
+/* HEADER */
+
+.dashboard-header {
+    position: relative;
+    z-index: 5;
+    background: rgba(255, 255, 255, .96);
+    border-bottom: 1px solid var(--dash-line);
+}
+
+.dashboard-nav {
+    display: flex;
+    min-height: 82px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.dashboard-brand img {
+    display: block;
+    width: 104px;
+    max-height: 70px;
+    object-fit: contain;
+}
+
+.dashboard-nav__actions {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+}
+
+.dashboard-nav__actions form {
+    margin: 0;
+}
+
+.dashboard-account,
+.dashboard-logout {
+    display: inline-flex;
+    min-height: 41px;
+    align-items: center;
+    justify-content: center;
+    gap: .45rem;
+    padding: .65rem .95rem;
+    border-radius: 999px;
+    font-size: .74rem;
+    font-weight: 700;
+}
+
+.dashboard-account {
+    color: var(--dash-ink);
+    background: #f1f5f6;
+}
+
+.dashboard-account i {
+    color: var(--dash-pink);
+    font-size: 1.05rem;
+}
+
+.dashboard-logout {
+    color: white;
+    background: var(--dash-ink);
+    border: 0;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+
+.dashboard-logout:hover {
+    color: white;
+    background: var(--dash-pink);
+}
+
+/* CONTENIDO PRINCIPAL */
+
+.dashboard-main {
+    min-height: calc(100vh - 175px);
+    padding-top: 2.6rem;
+    padding-bottom: 4rem;
+}
+
+/* BIENVENIDA */
+
+.dashboard-welcome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.dashboard-welcome__text {
+    max-width: 730px;
+}
+
+.dashboard-welcome h1 {
+    margin: .55rem 0 .5rem;
+    font: 800 clamp(2.05rem, 4vw, 2.85rem)/1.15 'Manrope', sans-serif;
+    letter-spacing: -.06em;
+    overflow-wrap: anywhere;
+}
+
+.dashboard-welcome h1 span {
+    color: var(--dash-pink);
+}
+
+.dashboard-welcome p {
+    max-width: 650px;
+    margin: 0;
+    color: var(--dash-muted);
+    font-size: .83rem;
+    line-height: 1.8;
+}
+
+.dashboard-welcome__badge {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: .7rem;
+    padding: .65rem .9rem;
+    background: white;
+    border: 1px solid var(--dash-line);
+    border-radius: 14px;
+}
+
+.dashboard-welcome__badge-icon {
+    display: grid;
+    width: 39px;
+    height: 39px;
+    place-items: center;
+    color: var(--dash-pink);
+    background: #fff0f5;
+    border-radius: 12px;
+    font-size: 1.1rem;
+}
+
+.dashboard-welcome__badge>div {
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+}
+
+.dashboard-welcome__badge strong {
+    font-size: .68rem;
+    font-weight: 800;
+}
+
+.dashboard-welcome__badge small {
+    color: var(--dash-muted);
+    font-size: .62rem;
+}
+
+/* BLOQUE PRINCIPAL DE RESERVA */
+
+.dashboard-booking {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr);
+    align-items: center;
+    gap: 2.5rem;
+    overflow: hidden;
+    padding: clamp(2rem, 4.5vw, 3.7rem);
+    margin-bottom: 3.5rem;
+    background:
+        radial-gradient(circle at 80% 15%, rgba(143, 231, 232, .42), transparent 29%),
+        radial-gradient(circle at 85% 100%, rgba(255, 79, 139, .15), transparent 35%),
+        linear-gradient(115deg, #fff0f5 0%, #fff8f0 58%, #edfbfb 100%);
+    border: 1px solid rgba(255, 255, 255, .9);
+    border-radius: 28px;
+}
+
+.dashboard-booking__content {
+    position: relative;
+    z-index: 2;
+    max-width: 610px;
+}
+
+.dashboard-booking__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    color: #28717a;
+    font-size: .62rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+}
+
+.dashboard-booking__eyebrow i {
+    color: var(--dash-pink);
+    font-size: 1rem;
+}
+
+.dashboard-booking h2 {
+    margin: .95rem 0 .85rem;
+    font: 800 clamp(2.35rem, 4.7vw, 3.75rem)/1.04 'Manrope', sans-serif;
+    letter-spacing: -.065em;
+}
+
+.dashboard-booking h2 span {
+    display: block;
+    color: var(--dash-pink);
+}
+
+.dashboard-booking__content>p {
+    max-width: 510px;
+    margin: 0;
+    color: #586b75;
+    font-size: .83rem;
+    line-height: 1.8;
+}
+
+.dashboard-booking__button {
+    display: inline-flex;
+    min-height: 49px;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: .85rem 1.2rem;
+    margin-top: 1.4rem;
+    color: white;
+    background: var(--dash-ink);
+    border-radius: 11px;
+    box-shadow: 0 9px 22px rgba(7, 27, 41, .14);
+    font-size: .75rem;
+    font-weight: 800;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.dashboard-booking__button:hover {
+    color: white;
+    background: var(--dash-pink);
+    transform: translateY(-2px);
+}
+
+.dashboard-booking__button i {
+    font-size: 1.05rem;
+    transition: transform .2s ease;
+}
+
+.dashboard-booking__button:hover i {
+    transform: translateX(4px);
+}
+
+.dashboard-booking__note {
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+    margin-top: .85rem;
+    color: var(--dash-muted);
+    font-size: .65rem;
+}
+
+.dashboard-booking__note i {
+    color: #16845f;
+    font-size: .95rem;
+}
+
+/* PASOS PARA RESERVAR */
+
+.dashboard-booking-flow {
+    position: relative;
+    z-index: 2;
+    padding: 1.4rem;
+    background: rgba(255, 255, 255, .78);
+    border: 1px solid rgba(255, 255, 255, .9);
+    border-radius: 20px;
+    box-shadow: 0 16px 35px rgba(7, 27, 41, .055);
+    backdrop-filter: blur(10px);
+}
+
+.dashboard-booking-flow__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: .9rem;
+    margin-bottom: .2rem;
+    border-bottom: 1px solid var(--dash-line);
+    color: #28717a;
+    font-size: .61rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+}
+
+.dashboard-booking-flow__heading i {
+    color: var(--dash-pink);
+    font-size: 1.05rem;
+}
+
+.dashboard-booking-flow__step {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .75rem 0;
+}
+
+.dashboard-booking-flow__number {
+    color: #abb7bc;
+    font: 800 .68rem 'Manrope', sans-serif;
+}
+
+.dashboard-booking-flow__icon {
+    display: grid;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    color: var(--dash-pink);
+    background: #fff0f5;
+    border-radius: 13px;
+    font-size: 1.2rem;
+}
+
+.dashboard-booking-flow__step:nth-of-type(4) .dashboard-booking-flow__icon {
+    color: #28717a;
+    background: #e8fafa;
+}
+
+.dashboard-booking-flow__step>div {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: .2rem;
+}
+
+.dashboard-booking-flow__step strong {
+    font: 800 .77rem 'Manrope', sans-serif;
+}
+
+.dashboard-booking-flow__step small {
+    color: var(--dash-muted);
+    font-size: .65rem;
+}
+
+.dashboard-booking-flow__connector {
+    width: 1px;
+    height: 12px;
+    margin-left: 3.9rem;
+    background: rgba(7, 27, 41, .13);
+}
+
+/* DETALLES DECORATIVOS */
+
+.dashboard-booking__decoration {
+    position: absolute;
+    top: 15%;
+    right: 3%;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+.dashboard-booking__decoration-dot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 9px;
+    height: 9px;
+    background: var(--dash-cyan);
+    border-radius: 50%;
+}
+
+.dashboard-booking__decoration-heart {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    display: grid;
+    width: 35px;
+    height: 35px;
+    place-items: center;
+    color: var(--dash-pink);
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 7px 20px rgba(7, 27, 41, .07);
+}
+
+/* ENCABEZADO DE ACCESOS */
+
+.dashboard-section-heading {
+    margin-bottom: 1.4rem;
+}
+
+.dashboard-section-heading .section-kicker {
+    display: block;
+    margin-bottom: .45rem;
+}
+
+.dashboard-section-heading h2 {
+    margin: 0;
+    font: 800 clamp(1.55rem, 3vw, 2rem)/1.2 'Manrope', sans-serif;
+    letter-spacing: -.05em;
+}
+
+.dashboard-section-heading p {
+    margin: .4rem 0 0;
+    color: var(--dash-muted);
+    font-size: .78rem;
+    line-height: 1.7;
+}
+
+/* TARJETAS DE ACCESO */
+
+.dashboard-action-card {
+    display: flex;
+    min-height: 257px;
+    flex-direction: column;
+    padding: 1.35rem;
+    color: var(--dash-ink);
+    background: white;
+    border: 1px solid var(--dash-line);
+    border-radius: 19px;
+    box-shadow: 0 8px 25px rgba(7, 27, 41, .025);
+    transition: transform .23s ease, box-shadow .23s ease, border-color .23s ease;
+}
+
+a.dashboard-action-card {
+    height: 100%;
+}
+
+a.dashboard-action-card:hover {
+    color: var(--dash-ink);
+    border-color: rgba(255, 79, 139, .35);
+    box-shadow: 0 16px 35px rgba(7, 27, 41, .08);
+    transform: translateY(-4px);
+}
+
+.dashboard-action-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+}
+
+.dashboard-action-card__icon {
+    display: grid;
+    width: 53px;
+    height: 53px;
+    place-items: center;
+    border-radius: 16px;
+    font-size: 1.55rem;
+}
+
+.dashboard-action-card__icon--pink {
+    color: #e9437b;
+    background: #fff0f5;
+}
+
+.dashboard-action-card__icon--cyan {
+    color: #28717a;
+    background: #e8fafa;
+}
+
+.dashboard-action-card__icon--cream {
+    color: #a96c2c;
+    background: #fff3e4;
+}
+
+.dashboard-action-card__icon--navy {
+    color: #355a70;
+    background: #edf3f8;
+}
+
+.dashboard-action-card__arrow {
+    display: grid;
+    width: 33px;
+    height: 33px;
+    place-items: center;
+    color: var(--dash-muted);
+    background: #f3f6f7;
+    border-radius: 50%;
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+a.dashboard-action-card:hover .dashboard-action-card__arrow {
+    color: white;
+    background: var(--dash-pink);
+    transform: rotate(45deg);
+}
+
+.dashboard-action-card__body {
+    flex: 1;
+    padding-top: 1.15rem;
+}
+
+.dashboard-action-card__body h3 {
+    margin: 0 0 .5rem;
+    font: 800 1.04rem 'Manrope', sans-serif;
+    letter-spacing: -.035em;
+}
+
+.dashboard-action-card__body p {
+    margin: 0;
+    color: var(--dash-muted);
+    font-size: .72rem;
+    line-height: 1.75;
+}
+
+.dashboard-action-card__label {
+    display: block;
+    margin: 0 0 .4rem;
+    color: #28717a;
+    font-size: .53rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+}
+
+.dashboard-action-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    margin-top: 1.2rem;
+    color: var(--dash-pink);
+    font-size: .68rem;
+    font-weight: 800;
+}
+
+.dashboard-action-card__link i {
+    font-size: .95rem;
+    transition: transform .2s ease;
+}
+
+a.dashboard-action-card:hover .dashboard-action-card__link i {
+    transform: translateX(4px);
+}
+
+/* TARJETA DE HORARIOS DESTACADA */
+
+.dashboard-action-card--featured {
+    background: linear-gradient(145deg, #fff, #fff9fb);
+    border-color: rgba(255, 79, 139, .25);
+}
+
+.dashboard-action-card--featured .dashboard-action-card__icon {
+    box-shadow: 0 7px 16px rgba(255, 79, 139, .08);
+}
+
+/* MIS CITAS */
+
+.dashboard-action-card--disabled {
+    background: #fbfcfd;
+    border-style: dashed;
+    box-shadow: none;
+}
+
+.dashboard-action-card__coming {
+    padding: .4rem .55rem;
+    color: #6f7f87;
+    background: #edf1f3;
+    border-radius: 7px;
+    font-size: .55rem;
+    font-weight: 800;
+}
+
+.dashboard-action-card__link--muted {
+    color: #8a989e;
+}
+
+/* BLOQUE INFORMATIVO */
+
+.dashboard-help {
+    display: flex;
+    align-items: center;
+    gap: 1.3rem;
+    padding: 1.5rem 1.7rem;
+    margin-top: 2.6rem;
+    background: linear-gradient(105deg, #fff0f5, #fff8f0 62%, #effafa);
+    border: 1px solid rgba(255, 79, 139, .08);
+    border-radius: 19px;
+}
+
+.dashboard-help__icon {
+    display: grid;
+    flex: 0 0 55px;
+    width: 55px;
+    height: 55px;
+    place-items: center;
+    color: var(--dash-pink);
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(7, 27, 41, .04);
+    font-size: 1.5rem;
+}
+
+.dashboard-help__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.dashboard-help__content .section-kicker {
+    display: block;
+    margin-bottom: .35rem;
+}
+
+.dashboard-help__content h2 {
+    margin: 0;
+    font: 800 1.08rem 'Manrope', sans-serif;
+    letter-spacing: -.035em;
+}
+
+.dashboard-help__content p {
+    margin: .35rem 0 0;
+    color: var(--dash-muted);
+    font-size: .71rem;
+    line-height: 1.7;
+}
+
+.dashboard-help__link {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    color: var(--dash-ink);
+    font-size: .7rem;
+    font-weight: 800;
+    white-space: nowrap;
+    transition: color .2s ease;
+}
+
+.dashboard-help__link:hover {
+    color: var(--dash-pink);
+}
+
+/* FOOTER */
+
+.dashboard-footer {
+    padding: 1.5rem 0;
+    background: white;
+    border-top: 1px solid var(--dash-line);
+}
+
+.dashboard-footer__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.2rem;
+}
+
+.dashboard-footer__brand img {
+    display: block;
+    width: 88px;
+    max-height: 52px;
+    object-fit: contain;
+}
+
+.dashboard-footer p {
+    margin: 0;
+    color: var(--dash-muted);
+    font-size: .69rem;
+    text-align: center;
+}
+
+.dashboard-footer__inner>span {
+    color: var(--dash-muted);
+    font-size: .62rem;
+    text-align: right;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 991.98px) {
+
+    .dashboard-booking {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.8rem;
+    }
+
+    .dashboard-booking__content {
+        max-width: 700px;
+    }
+
+    .dashboard-booking-flow {
+        max-width: 600px;
+    }
+
+    .dashboard-welcome__badge {
+        display: none;
+    }
+}
+
+@media (max-width: 575.98px) {
+
+    .dashboard-nav {
+        min-height: 70px;
+    }
+
+    .dashboard-brand img {
+        width: 84px;
+    }
+
+    .dashboard-nav__actions {
+        gap: .35rem;
+    }
+
+    .dashboard-account,
+    .dashboard-logout {
+        min-height: 38px;
+        padding: .55rem .7rem;
+        font-size: .67rem;
+    }
+
+    .dashboard-account {
+        gap: .3rem;
+    }
+
+    .dashboard-logout span {
+        display: none;
+    }
+
+    .dashboard-main {
+        padding-top: 1.8rem;
+        padding-bottom: 3rem;
+    }
+
+    .dashboard-welcome {
+        margin-bottom: 1.7rem;
+    }
+
+    .dashboard-welcome h1 {
+        font-size: 2.05rem;
+    }
+
+    .dashboard-welcome p {
+        font-size: .77rem;
+    }
+
+    .dashboard-booking {
+        gap: 1.3rem;
+        padding: 1.55rem;
+        margin-bottom: 2.8rem;
+        border-radius: 22px;
+    }
+
+    .dashboard-booking h2 {
+        font-size: 2.5rem;
+    }
+
+    .dashboard-booking__content>p {
+        font-size: .77rem;
+    }
+
+    .dashboard-booking__button {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .dashboard-booking-flow {
+        padding: 1rem;
+        border-radius: 16px;
+    }
+
+    .dashboard-section-heading h2 {
+        font-size: 1.55rem;
+    }
+
+    .dashboard-action-card {
+        min-height: 220px;
+        padding: 1.2rem;
+    }
+
+    .dashboard-help {
+        flex-wrap: wrap;
+        gap: .9rem;
+        padding: 1.2rem;
+    }
+
+    .dashboard-help__icon {
+        flex-basis: 45px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+
+    .dashboard-help__content {
+        flex-basis: calc(100% - 65px);
+    }
+
+    .dashboard-help__content h2 {
+        font-size: 1rem;
+    }
+
+    .dashboard-help__link {
+        margin-left: 3.8rem;
+    }
+
+    .dashboard-footer__inner {
+        flex-direction: column;
+        gap: .75rem;
+    }
+
+    .dashboard-footer p,
+    .dashboard-footer__inner>span {
+        text-align: center;
+    }
+}
+
+/* MOVIMIENTO REDUCIDO */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .client-dashboard-page *,
+    .client-dashboard-page *::before,
+    .client-dashboard-page *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}

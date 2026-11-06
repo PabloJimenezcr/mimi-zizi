@@ -1,0 +1,112 @@
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="modalAuth">
+  <div class="login-modal" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle"
+    aria-hidden="true" hidden>
+    <div class="auth-backdrop js-close-auth" aria-hidden="true"></div>
+    <section class="login-card auth-card" id="authCard" tabindex="-1">
+      <button class="modal-close js-close-auth" type="button" aria-label="Cerrar ventana"><i class="ri-close-line"
+          aria-hidden="true"></i></button>
+      <div class="auth-card__brand">
+        <div class="login-card__bubble"><i class="ri-paw-fill" aria-hidden="true"></i></div>
+      </div>
+      <div class="auth-card__scroll" id="authScrollArea" data-lenis-prevent>
+        <div class="auth-view" id="loginView">
+          <span class="section-kicker">ACCESO A TU EXPERIENCIA</span>
+          <h2 id="loginTitle">Hola de nuevo.</h2>
+          <p>Inicia sesión para continuar con la reserva.</p>
+          <div class="auth-notice auth-notice--success" id="loginSuccessNotice" role="status"
+            th:if="${authNotice != null and !#strings.isEmpty(authNotice)}" th:text="${authNotice}"></div>
+          <div class="auth-notice auth-notice--error" role="alert" th:if="${loginError}">El correo o la contraseña no
+            son correctos. Revisa tus datos.</div>
+          <form id="loginForm" th:action="@{/login}" method="post" novalidate>
+            <div class="auth-field">
+              <label for="loginEmail">Correo electrónico</label>
+              <input id="loginEmail" name="correo" type="email" autocomplete="username" placeholder="tu@email.com"
+                aria-describedby="loginEmailError">
+              <small class="field-error" id="loginEmailError" data-field-error></small>
+            </div>
+            <div class="auth-field">
+              <label for="loginPass">Contraseña</label>
+              <div class="password-field">
+                <input id="loginPass" name="contrasena" type="password" autocomplete="current-password"
+                  placeholder="Tu contraseña" aria-describedby="loginPassError">
+                <button type="button" id="togglePass" aria-label="Mostrar contraseña"><i class="ri-eye-line"
+                    aria-hidden="true"></i></button>
+              </div>
+              <small class="field-error" id="loginPassError" data-field-error></small>
+            </div>
+            <button class="btn-hero btn-hero--pink w-100 auth-submit" id="loginSubmit" type="submit"><span>Iniciar
+                sesión</span><i class="ri-arrow-right-up-line" aria-hidden="true"></i></button>
+          </form>
+          <div class="form-status" id="formStatus" aria-live="polite"></div>
+          <p class="auth-switch">¿Primera vez en Mimi y Zizi? <button type="button"
+              class="link-button auth-switch__button" id="showRegister">Crear cuenta</button></p>
+        </div>
+
+        <div class="auth-view" id="registerView" hidden>
+          <span class="section-kicker">TU EXPERIENCIA COMIENZA AQUÍ</span>
+          <h2 id="registerTitle">Crea tu cuenta.</h2>
+          <p>Un perfil para ti y todos tus peluditos.</p>
+          <div class="auth-notice auth-notice--error" role="alert"
+            th:if="${authRegisterNotice != null and !#strings.isEmpty(authRegisterNotice)}"
+            th:text="${authRegisterNotice}"></div>
+          <form id="registerForm" th:action="@{/registro}" th:object="${registroForm}" method="post" novalidate>
+            <div class="auth-field">
+              <label for="registerName">Nombre completo</label>
+              <input id="registerName" type="text" th:field="*{nombreCompleto}" autocomplete="name"
+                placeholder="Ej. María López" maxlength="120"
+                th:classappend="${#fields.hasErrors('nombreCompleto')} ? 'is-invalid' : ''"
+                aria-describedby="registerNameError">
+              <small class="field-error" id="registerNameError" data-field-error th:errors="*{nombreCompleto}"></small>
+            </div>
+            <div class="auth-field">
+              <label for="registerPhone">Teléfono</label>
+              <input id="registerPhone" type="tel" th:field="*{telefono}" autocomplete="tel" placeholder="Ej. 8888-8888"
+                maxlength="25" th:classappend="${#fields.hasErrors('telefono')} ? 'is-invalid' : ''"
+                aria-describedby="registerPhoneError">
+              <small class="field-error" id="registerPhoneError" data-field-error th:errors="*{telefono}"></small>
+            </div>
+            <div class="auth-field">
+              <label for="registerEmail">Correo electrónico</label>
+              <input id="registerEmail" type="email" th:field="*{correo}" autocomplete="email"
+                placeholder="tu@email.com" maxlength="160"
+                th:classappend="${#fields.hasErrors('correo')} ? 'is-invalid' : ''"
+                aria-describedby="registerEmailError">
+              <small class="field-error" id="registerEmailError" data-field-error th:errors="*{correo}"></small>
+            </div>
+            <div class="auth-field">
+              <label for="registerPass">Contraseña</label>
+              <div class="password-field">
+                <input id="registerPass" type="password" name="contrasena"
+                  th:classappend="${#fields.hasErrors('contrasena')} ? 'is-invalid' : ''" autocomplete="new-password"
+                  placeholder="Mínimo 8 caracteres" aria-describedby="registerPassError">
+                <button type="button" id="toggleRegisterPass" aria-label="Mostrar contraseña"><i class="ri-eye-line"
+                    aria-hidden="true"></i></button>
+              </div>
+              <small class="field-help">Utiliza al menos 8 caracteres.</small>
+              <small class="field-error" id="registerPassError" data-field-error th:errors="*{contrasena}"></small>
+            </div>
+            <div class="auth-field">
+              <label for="registerConfirmPass">Confirmar contraseña</label>
+              <input id="registerConfirmPass" type="password" name="confirmarContrasena"
+                th:classappend="${#fields.hasErrors('confirmarContrasena')} ? 'is-invalid' : ''"
+                autocomplete="new-password" placeholder="Escribe nuevamente tu contraseña"
+                aria-describedby="registerConfirmPassError">
+              <small class="field-error" id="registerConfirmPassError" data-field-error
+                th:errors="*{confirmarContrasena}"></small>
+            </div>
+            <div class="auth-field auth-field--terms">
+              <label class="check register-check" for="registerTerms"><input id="registerTerms" type="checkbox"
+                  th:field="*{aceptaTerminos}"><span>Acepto los términos y la política de privacidad.</span></label>
+              <small class="field-error" id="registerTermsError" data-field-error th:errors="*{aceptaTerminos}"></small>
+            </div>
+            <button class="btn-hero btn-hero--pink w-100 auth-submit" id="registerSubmit" type="submit"><span>Crear mi
+                cuenta</span><i class="ri-arrow-right-up-line" aria-hidden="true"></i></button>
+          </form>
+          <div class="form-status" id="registerStatus" aria-live="polite"></div>
+          <p class="auth-switch">¿Ya tienes una cuenta? <button type="button" class="link-button auth-switch__button"
+              id="showLogin">Iniciar sesión</button></p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

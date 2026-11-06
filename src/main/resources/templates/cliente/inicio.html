@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071b29">
+
+  <title>Mi cuenta | Mimi y Zizi</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/css/main.css}" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body class="client-dashboard-page">
+
+  <a href="#main-content" class="dashboard-skip">
+    Saltar al contenido principal
+  </a>
+
+  <!-- HEADER -->
+  <header class="dashboard-header">
+
+    <div class="container">
+
+      <nav class="dashboard-nav" aria-label="Navegación principal">
+
+        <a th:href="@{/cliente/inicio}" class="dashboard-brand" aria-label="Mimi y Zizi, mi cuenta">
+
+          <img th:src="@{/assets/img/logo-mimi-zizi.png}" alt="Mimi y Zizi">
+
+        </a>
+
+        <div class="dashboard-nav__actions">
+
+          <span class="dashboard-account">
+            <i class="ri-user-smile-line" aria-hidden="true"></i>
+            Mi cuenta
+          </span>
+
+          <form th:action="@{/logout}" method="post">
+
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+            <button type="submit" class="dashboard-logout">
+              <i class="ri-logout-box-r-line" aria-hidden="true"></i>
+              <span>Cerrar sesión</span>
+            </button>
+
+          </form>
+
+        </div>
+
+      </nav>
+
+    </div>
+
+  </header>
+
+
+  <main class="container dashboard-main" id="main-content" tabindex="-1">
+
+    <!-- BIENVENIDA -->
+    <section class="dashboard-welcome">
+
+      <div class="dashboard-welcome__text">
+
+        <span class="section-kicker">
+          TU ESPACIO PERSONAL
+        </span>
+
+        <h1>
+          ¡Hola,
+          <span th:text="${usuario != null ? usuario.nombreCompleto : 'amigo'}">
+            amigo
+          </span>!
+        </h1>
+
+        <p>
+          Bienvenido a tu espacio. Aquí puedes organizar las visitas
+          y gestionar todo lo relacionado con el cuidado de tu mascota.
+        </p>
+
+      </div>
+
+      <div class="dashboard-welcome__badge">
+
+        <span class="dashboard-welcome__badge-icon">
+          <i class="ri-heart-fill" aria-hidden="true"></i>
+        </span>
+
+        <div>
+          <strong>Nos alegra tenerte aquí</strong>
+          <small>Todo para ellos, en un solo lugar.</small>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ACCIÓN PRINCIPAL: RESERVAR -->
+    <section class="dashboard-booking" aria-labelledby="booking-title">
+
+      <div class="dashboard-booking__content">
+
+        <span class="dashboard-booking__eyebrow">
+          <i class="ri-calendar-heart-line" aria-hidden="true"></i>
+          SU PRÓXIMA EXPERIENCIA COMIENZA AQUÍ
+        </span>
+
+        <h2 id="booking-title">
+          Regálale un momento
+          <span>de cuidado especial.</span>
+        </h2>
+
+        <p>
+          Encuentra una fecha disponible, elige a tu compañero
+          y selecciona los servicios que deseas para su visita.
+        </p>
+
+        <a th:href="@{/cliente/horarios}" class="dashboard-booking__button">
+
+          Agendar una cita
+
+          <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+        </a>
+
+        <span class="dashboard-booking__note">
+          <i class="ri-shield-check-line" aria-hidden="true"></i>
+          Consulta los horarios antes de confirmar tu reserva.
+        </span>
+
+      </div>
+
+      <!-- RESUMEN VISUAL DEL PROCESO -->
+      <div class="dashboard-booking-flow" aria-label="Pasos para reservar una cita">
+
+        <div class="dashboard-booking-flow__heading">
+
+          <span>ASÍ DE FÁCIL ES</span>
+
+          <i class="ri-sparkling-2-line" aria-hidden="true"></i>
+
+        </div>
+
+        <div class="dashboard-booking-flow__step">
+
+          <span class="dashboard-booking-flow__number">01</span>
+
+          <span class="dashboard-booking-flow__icon">
+            <i class="ri-calendar-check-line" aria-hidden="true"></i>
+          </span>
+
+          <div>
+            <strong>Elige tu horario</strong>
+            <small>Encuentra una fecha disponible.</small>
+          </div>
+
+        </div>
+
+        <div class="dashboard-booking-flow__connector"></div>
+
+        <div class="dashboard-booking-flow__step">
+
+          <span class="dashboard-booking-flow__number">02</span>
+
+          <span class="dashboard-booking-flow__icon">
+            <i class="ri-heart-pulse-line" aria-hidden="true"></i>
+          </span>
+
+          <div>
+            <strong>Personaliza su visita</strong>
+            <small>Selecciona mascota y servicios.</small>
+          </div>
+
+        </div>
+
+        <div class="dashboard-booking-flow__connector"></div>
+
+        <div class="dashboard-booking-flow__step">
+
+          <span class="dashboard-booking-flow__number">03</span>
+
+          <span class="dashboard-booking-flow__icon">
+            <i class="ri-checkbox-circle-line" aria-hidden="true"></i>
+          </span>
+
+          <div>
+            <strong>Confirma tu reserva</strong>
+            <small>Revisa los detalles y el precio.</small>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="dashboard-booking__decoration" aria-hidden="true">
+
+        <span class="dashboard-booking__decoration-dot"></span>
+        <span class="dashboard-booking__decoration-heart">
+          <i class="ri-heart-fill"></i>
+        </span>
+
+      </div>
+
+    </section>
+
+
+    <!-- ACCESOS PRINCIPALES -->
+    <section class="dashboard-management" aria-labelledby="management-title">
+
+      <div class="dashboard-section-heading">
+
+        <div>
+
+          <span class="section-kicker">
+            GESTIONA TU ESPACIO
+          </span>
+
+          <h2 id="management-title">
+            ¿Qué necesitas hacer?
+          </h2>
+
+          <p>
+            Accede directamente a las herramientas de tu cuenta.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-3">
+
+        <!-- MASCOTAS -->
+        <div class="col">
+
+          <a th:href="@{/cliente/mascotas}" class="dashboard-action-card">
+
+            <div class="dashboard-action-card__top">
+
+              <span class="dashboard-action-card__icon dashboard-action-card__icon--pink">
+                <i class="ri-heart-fill" aria-hidden="true"></i>
+              </span>
+
+              <span class="dashboard-action-card__arrow">
+                <i class="ri-arrow-up-right-line" aria-hidden="true"></i>
+              </span>
+
+            </div>
+
+            <div class="dashboard-action-card__body">
+
+              <h3>Mis mascotas</h3>
+
+              <p>
+                Registra a tus compañeros, agrega fotografías
+                y mantén actualizada su información.
+              </p>
+
+            </div>
+
+            <span class="dashboard-action-card__link">
+              Administrar mascotas
+              <i class="ri-arrow-right-line" aria-hidden="true"></i>
+            </span>
+
+          </a>
+
+        </div>
+
+
+        <!-- SERVICIOS -->
+        <div class="col">
+
+          <a th:href="@{/cliente/servicios}" class="dashboard-action-card">
+
+            <div class="dashboard-action-card__top">
+
+              <span class="dashboard-action-card__icon dashboard-action-card__icon--cyan">
+                <i class="ri-scissors-cut-line" aria-hidden="true"></i>
+              </span>
+
+              <span class="dashboard-action-card__arrow">
+                <i class="ri-arrow-up-right-line" aria-hidden="true"></i>
+              </span>
+
+            </div>
+
+            <div class="dashboard-action-card__body">
+
+              <h3>Servicios</h3>
+
+              <p>
+                Conoce nuestros tratamientos, sus características,
+                duración y precios.
+              </p>
+
+            </div>
+
+            <span class="dashboard-action-card__link">
+              Explorar servicios
+              <i class="ri-arrow-right-line" aria-hidden="true"></i>
+            </span>
+
+          </a>
+
+        </div>
+
+
+        <!-- HORARIOS -->
+        <div class="col">
+
+          <a th:href="@{/cliente/horarios}" class="dashboard-action-card dashboard-action-card--featured">
+
+            <div class="dashboard-action-card__top">
+
+              <span class="dashboard-action-card__icon dashboard-action-card__icon--cream">
+                <i class="ri-calendar-check-line" aria-hidden="true"></i>
+              </span>
+
+              <span class="dashboard-action-card__arrow">
+                <i class="ri-arrow-up-right-line" aria-hidden="true"></i>
+              </span>
+
+            </div>
+
+            <div class="dashboard-action-card__body">
+
+              <span class="dashboard-action-card__label">
+                PARA TU PRÓXIMA VISITA
+              </span>
+
+              <h3>Horarios disponibles</h3>
+
+              <p>
+                Consulta las jornadas habilitadas y encuentra
+                el momento ideal para reservar.
+              </p>
+
+            </div>
+
+            <span class="dashboard-action-card__link">
+              Ver horarios
+              <i class="ri-arrow-right-line" aria-hidden="true"></i>
+            </span>
+
+          </a>
+
+        </div>
+
+
+        <!-- MIS CITAS -->
+        <div class="col">
+
+          <div class="dashboard-action-card dashboard-action-card--disabled" aria-disabled="true">
+
+            <div class="dashboard-action-card__top">
+
+              <span class="dashboard-action-card__icon dashboard-action-card__icon--navy">
+                <i class="ri-calendar-todo-line" aria-hidden="true"></i>
+              </span>
+
+              <span class="dashboard-action-card__coming">
+                Próximamente
+              </span>
+
+            </div>
+
+            <div class="dashboard-action-card__body">
+
+              <h3>Mis citas</h3>
+
+              <p>
+                Consulta tus próximas reservas, revisa sus estados
+                y conoce tu historial de visitas.
+              </p>
+
+            </div>
+
+            <span class="dashboard-action-card__link dashboard-action-card__link--muted">
+              Historial de citas
+              <i class="ri-lock-2-line" aria-hidden="true"></i>
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- INFORMACIÓN DE AYUDA -->
+    <section class="dashboard-help">
+
+      <div class="dashboard-help__icon">
+        <i class="ri-question-answer-line" aria-hidden="true"></i>
+      </div>
+
+      <div class="dashboard-help__content">
+
+        <span class="section-kicker">
+          ESTAMOS AQUÍ PARA ACOMPAÑARTE
+        </span>
+
+        <h2>
+          Cada mascota merece un cuidado especial.
+        </h2>
+
+        <p>
+          Explora nuestros servicios y prepara una visita pensada
+          para las necesidades de tu compañero.
+        </p>
+
+      </div>
+
+      <a th:href="@{/cliente/servicios}" class="dashboard-help__link">
+
+        Conocer servicios
+
+        <i class="ri-arrow-right-up-line" aria-hidden="true"></i>
+
+      </a>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer class="dashboard-footer">
+
+    <div class="container">
+
+      <div class="dashboard-footer__inner">
+
+        <a th:href="@{/cliente/inicio}" class="dashboard-footer__brand">
+
+          <img th:src="@{/assets/img/logo-mimi-zizi.png}" alt="Mimi y Zizi">
+
+        </a>
+
+        <p>
+          Cuidamos a quienes hacen más felices tus días.
+        </p>
+
+        <span>
+          © 2026 Mimi y Zizi. Todos los derechos reservados.
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+</body>
+
+</html>
